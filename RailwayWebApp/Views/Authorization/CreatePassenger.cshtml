@@ -1,0 +1,31 @@
+﻿@model Passenger
+@{
+    Layout = "_AuthorizationLayout";
+    ViewData["Title"] = "Данные пассажира";
+}
+<body>
+    <form asp-action="CreatePassenger" asp-controller="Authorization">
+        <div class="form-group col-md-6">
+            <label asp-for="PassengerFullName" class="control-label">ФИО</label>
+            <input type="text" asp-for="PassengerFullName" class="form-control"/>
+            <span asp-validation-for="PassengerFullName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PassengerBirthday">Дата рождения</label>
+            <input type="date" asp-for="PassengerBirthday" class="form-control"/>
+            <span asp-validation-for="PassengerBirthday" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="IdPassengerPassportType" class="control-label">Тип паспорта</label>
+            <select asp-for="IdPassengerPassportType" asp-items="ViewBag.PassportType"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PassengerPassport" class="control-label">Данные паспорта</label>
+            <input type="number" asp-for="PassengerPassport" class="form-control"/>
+            <span asp-validation-for="PassengerPassport" class="text-danger"></span>
+        </div>
+        <div class="col-3 mx-sm-1 mb-2">
+            <button class="btn btn-outline-primary">Зарегистрироваться</button>
+        </div>
+    </form>
+</body>

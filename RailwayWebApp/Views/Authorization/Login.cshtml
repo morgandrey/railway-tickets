@@ -1,0 +1,30 @@
+﻿@model User
+@{
+    Layout = "_AuthorizationLayout";
+    ViewBag.Title = "Авторизация";
+}
+<body>
+    <form asp-action="Login" asp-controller="Authorization" method="post">
+        <div class="text-center">
+            <h1 class="display-4">Login</h1>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="UserLogin">Логин</label>
+            <input type="text" asp-for="UserLogin" class="form-control" placeholder="Login"/>
+            <span asp-validation-for="UserLogin" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Пароль</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"/>
+        </div>
+        @if (ViewBag.CheckUserPassword == false) {
+            <label class="text-danger col-md-6">Не правильный пароль!</label>
+        }
+        @if (ViewBag.CheckUserLogin == false) {
+            <label class="text-danger col-md-6">Такого пользователя не существует</label>
+        }
+        <div class="col-3 mx-sm-1 mb-2">
+            <button class="btn btn-outline-primary">Войти</button>
+        </div>
+    </form>
+</body>

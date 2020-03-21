@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Passenger>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Пользователи";
+}
+
+<h1>Список пользователей</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Логин</th>
+            <th>ФИО</th>
+            <th>Дата рождения</th>
+            <th>Тип паспорта</th>
+            <th>Данные паспорта</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>@item.UserNavigation.UserLogin</td>
+            <td>@item.PassengerFullName</td>
+            <td>@item.PassengerBirthday.ToString("d")</td>
+            <td>@item.PassportTypeNavigation.Passport</td>
+            <td>@item.PassengerPassport</td>
+        </tr>
+        }
+    </tbody>
+</table>

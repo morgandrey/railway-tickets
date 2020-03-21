@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="RailwayDesktopApp.Views.PassengerSellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RailwayDesktopApp.Views"
+             xmlns:prism ="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="2" Content="Продажа билета" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
+        <TextBlock Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Text="{Binding TicketInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="18"/>
+        <TextBlock Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Text="{Binding PriceInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="18"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Скидка" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" Margin="10,30,10,30" ItemsSource="{Binding Discounts}" SelectedItem="{Binding SelectedDiscountItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="IdDiscount" DisplayMemberPath="DiscountName" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="18">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding DiscountSelectionChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <Button Grid.Row="5" Grid.Column="0" Margin="50,30,50,30" Content="Назад" Foreground="Red" FontSize="30" Command="{Binding BackCommand}"/>
+        <Button Grid.Row="5" Grid.Column="1" Margin="50,30,50,30" Content="Заказать билет" Foreground="Green" FontSize="30" Command="{Binding ApplySaleCommand}"/>
+    </Grid>
+</UserControl>

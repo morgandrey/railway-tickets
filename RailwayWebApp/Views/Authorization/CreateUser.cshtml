@@ -1,0 +1,24 @@
+﻿@model User
+@{
+    Layout = "_AuthorizationLayout";
+    ViewBag.Title = "Добавление пользователя";
+}
+<body>
+    <form asp-action="CreateUser" asp-controller="Authorization">
+        <div class="text-center">
+            <h1 class="display-4">Register</h1>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="UserLogin" class="control-label">Логин</label>
+            <input type="text" asp-for="UserLogin" class="form-control" />
+            <span asp-validation-for="UserLogin" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Пароль</label>
+            <input type="password" id="password" name="password" class="form-control" />
+        </div>
+        <div class="col-3 mx-sm-1 mb-2">
+            <button class="btn btn-outline-primary">Зарегистрироваться</button>
+        </div>
+    </form>
+</body>
