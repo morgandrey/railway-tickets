@@ -27,7 +27,7 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>@item.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.TrainName</td>
-                    <td>@item.TicketDate.ToString("g")</td>
+                    <td>@item.TicketDate.ToString()</td>
                     <td>@item.TrainDepartureTownNavigation.TownName</td>
                     <td>@item.TrainArrivalTownNavigation.TownName</td>
                     <td>@item.SeatNavigation.WagonNavigation.WagonNumber</td>

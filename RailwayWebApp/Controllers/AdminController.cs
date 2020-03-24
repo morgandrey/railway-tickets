@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using RailwayWebApp.Data;
 using RailwayWebApp.Models;
 
@@ -40,15 +39,13 @@ namespace RailwayWebApp.Controllers
         }
 
         public IActionResult Sales() {
-            List<Sale> sales = null;
-            if (TempData["entity"] != null) {
-                sales = JsonConvert.DeserializeObject<List<Sale>>(TempData["entity"].ToString());
-            }
-            return View(sales);
+            return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ShowSales(DateTime dateFrom, DateTime dateTo) {
+        public async Task<IActionResult> ShowSales(DateTime? dateFrom, DateTime? dateTo) {
+            if (dateFrom == null || dateTo == null) {
+                return RedirectToAction("Sales");
+            }
             try {
                 var sales = new List<Sale>(await dbContext.Sale
                     .Include(pass => pass.PassengerNavigation)
@@ -59,20 +56,16 @@ namespace RailwayWebApp.Controllers
                     .Where(x => x.SaleDate >= dateFrom && x.SaleDate <= dateTo)
                     .ToListAsync());
                 if (sales.Count > 0) {
-                    TempData["entity"] = JsonConvert.SerializeObject(sales, Formatting.Indented,
-                        new JsonSerializerSettings {
-                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                        });
+                    Response.Cookies.Append("dateFrom", dateFrom.ToString());
+                    Response.Cookies.Append("dateTo", dateTo.ToString());
                 }
-                Response.Cookies.Append("dateFrom", dateFrom.ToString("d"));
-                Response.Cookies.Append("dateTo", dateTo.ToString("d"));
+                return View("Sales", sales);
             } catch {
                 return NotFound();
             }
-            return RedirectToAction("Sales");
         }
 
-        public IActionResult CreateSaleReport() {
+        public JsonResult CreateSaleReport() {
             try {
                 var dateFrom = Request.Cookies["dateFrom"];
                 var dateTo = Request.Cookies["dateTo"];
@@ -84,7 +77,7 @@ namespace RailwayWebApp.Controllers
                         .Include(arrival => arrival.TicketNavigation.TrainArrivalTownNavigation)
                         .Where(x => x.SaleDate >= DateTime.Parse(dateFrom) && x.SaleDate <= DateTime.Parse(dateTo)))
                     .ToList();
-                var dest = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Отчёт по продажам.pdf";
+                var dest = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"/Отчёт по продажам от {DateTime.Parse(dateFrom):yyyy-MM-dd}.pdf";
                 var file = new FileInfo(dest);
                 file.Directory.Create();
                 var pdf = new PdfDocument(new PdfWriter(dest));
@@ -131,9 +124,9 @@ namespace RailwayWebApp.Controllers
 
                 document.Close();
             } catch {
-                return NotFound();
+                return new JsonResult("Не удалось сохранить отчёт");
             }
-            return RedirectToAction("Sales");
+            return new JsonResult("Отчёт сохранен");
         }
 
         public async Task<IActionResult> Tickets() {
@@ -158,21 +151,27 @@ namespace RailwayWebApp.Controllers
 
         [HttpPost]
         public IActionResult CreateNewTickets(Ticket ticket, int numberOfWagons) {
-            try {
-                Response.Cookies.Append("idTrain",
-                    ticket.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.IdTrain.ToString());
-                Response.Cookies.Append("numberOfWagons", numberOfWagons.ToString());
-                Response.Cookies.Append("idDepartureTown",
-                    ticket.TrainDepartureTownNavigation.IdTrainDepartureTown.ToString());
-                Response.Cookies.Append("idArrivalTown",
-                    ticket.TrainArrivalTownNavigation.IdTrainArrivalTown.ToString());
-                Response.Cookies.Append("ticketDate", ticket.TicketDate.ToString("g"));
-                Response.Cookies.Append("ticketTravelDuration", ticket.TicketTravelTime.ToString("g"));
-            } catch {
-                return NotFound();
+            if (ModelState.IsValid) {
+                try {
+                    Response.Cookies.Append("idTrain",
+                        ticket.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.IdTrain.ToString());
+                    Response.Cookies.Append("numberOfWagons", numberOfWagons.ToString());
+                    Response.Cookies.Append("idDepartureTown",
+                        ticket.TrainDepartureTownNavigation.IdTrainDepartureTown.ToString());
+                    Response.Cookies.Append("idArrivalTown",
+                        ticket.TrainArrivalTownNavigation.IdTrainArrivalTown.ToString());
+                    Response.Cookies.Append("ticketDate", ticket.TicketDate.ToString());
+                    Response.Cookies.Append("ticketTravelDuration", ticket.TicketTravelTime.ToString());
+                }
+                catch {
+                    return NotFound();
+                }
+                return RedirectToAction("TicketWagonInformation");
             }
-
-            return RedirectToAction("TicketWagonInformation");
+            ViewBag.Trains = new SelectList(dbContext.Train.ToList(), "IdTrain", "TrainName");
+            ViewBag.DepartureTowns = new SelectList(dbContext.TrainDepartureTown.ToList(), "IdTrainDepartureTown", "TownName");
+            ViewBag.ArrivalTowns = new SelectList(dbContext.TrainArrivalTown.ToList(), "IdTrainArrivalTown", "TownName");
+            return View();
         }
 
         public IActionResult TicketWagonInformation() {
@@ -254,6 +253,10 @@ namespace RailwayWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteTicket(int id) {
             var ticket = await dbContext.Ticket
+                .Include(departure => departure.TrainDepartureTownNavigation)
+                .Include(arrival => arrival.TrainArrivalTownNavigation)
+                .Include(wagon => wagon.SeatNavigation.WagonNavigation)
+                .Include(seat => seat.SeatNavigation)
                 .FirstOrDefaultAsync(m => m.IdTicket == id);
             if (ticket == null) {
                 return NotFound();
@@ -264,9 +267,35 @@ namespace RailwayWebApp.Controllers
         [HttpPost, ActionName("DeleteTicket")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            var ticket = await dbContext.Ticket.FindAsync(id);
-            dbContext.Ticket.Remove(ticket);
-            await dbContext.SaveChangesAsync();
+            try {
+                await using var transaction1 = dbContext.Database.BeginTransaction();
+                var ticket = await dbContext.Ticket
+                    .Include(seat => seat.SeatNavigation)
+                    .Include(wagon => wagon.SeatNavigation.WagonNavigation)
+                    .Include(traionwagon => traionwagon.SeatNavigation.WagonNavigation.TrainWagonNavigation)
+                    .FirstOrDefaultAsync(x => x.IdTicket == id);
+
+                dbContext.Entry(ticket.SeatNavigation).State = EntityState.Deleted;
+                dbContext.Entry(ticket).State = EntityState.Deleted;
+                var seats = dbContext.Seat
+                    .Where(x => x.IdWagon == ticket.SeatNavigation.WagonNavigation.IdWagon)
+                    .ToList();
+                if (seats.Count == 1) {
+                    dbContext.Entry(ticket.SeatNavigation.WagonNavigation).State = EntityState.Deleted;
+                }
+                var wagons = dbContext.Wagon
+                    .Where(x => x.TrainWagonNavigation.IdTrainWagon ==
+                                ticket.SeatNavigation.WagonNavigation.TrainWagonNavigation.IdTrainWagon)
+                    .ToList();
+                if (wagons.Count == 1 && seats.Count == 1) {
+                    dbContext.Entry(ticket.SeatNavigation.WagonNavigation.TrainWagonNavigation).State =
+                        EntityState.Deleted;
+                }
+                await dbContext.SaveChangesAsync();
+                transaction1.Commit();
+            } catch {
+                return NotFound();
+            }
             return RedirectToAction("Tickets");
         }
 
