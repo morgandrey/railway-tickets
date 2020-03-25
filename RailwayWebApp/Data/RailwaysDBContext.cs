@@ -273,6 +273,7 @@ namespace RailwayWebApp.Data
                     .HasName("User_pk")
                     .IsClustered(false);
 
+
                 entity.ToTable("User", "rw");
 
                 entity.HasIndex(e => e.UserLogin)
@@ -297,6 +298,7 @@ namespace RailwayWebApp.Data
                     .HasMaxLength(100);
 
                 entity.Property(e => e.UserType).HasColumnName("user_type");
+
             });
 
             modelBuilder.Entity<Wagon>(entity =>

@@ -1,0 +1,58 @@
+﻿@model RailwayWebApp.ViewModels.RegisterViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Регистрация пользователя";
+}
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Регистрация</h1>
+    </div>
+    <form asp-action="Register" asp-controller="Account" class="row text-center mt-5">
+        <div class="form-group col">
+            <label asp-for="Login" class="control-label">Логин</label>
+            <input type="text" asp-for="Login" class="form-control" />
+            <span asp-validation-for="Login" class="text-danger"></span>
+        </div>
+        <div class="form-group col">
+            <label asp-for="FullName" class="control-label">Ф.И.О.</label>
+            <input type="text" asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="form-group col">
+            <label asp-for="Password" class="control-label">Пароль</label>
+            <input type="password" asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group col">
+            <label asp-for="Birthday">Дата рождения</label>
+            <input type="date" asp-for="Birthday" class="form-control" />
+            <span asp-validation-for="Birthday" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="form-group col">
+            <label asp-for="ConfirmPassword" class="control-label">Подтверждение пароля</label>
+            <input type="password" asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group col">
+            <label asp-for="IdPassportType" class="control-label">Тип паспорта</label>
+            <select class="form-control" asp-for="IdPassportType" asp-items="ViewBag.PassportType"></select>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="col">
+            <button class="btn btn-outline-primary mt-4">Зарегистрироваться</button>
+        </div>
+        <div class="form-group col">
+            <label asp-for="PassportData" class="control-label">Данные паспорта</label>
+            <input type="number" asp-for="PassportData" class="form-control" />
+            <span asp-validation-for="PassportData" class="text-danger"></span>
+        </div>
+    </form>
+</body>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace RailwayWebApp.Models
@@ -9,12 +10,16 @@ namespace RailwayWebApp.Models
         public int IdPassenger { get; set; }
 
         [Required (ErrorMessage = "Не указано ФИО")]
+        [DisplayName("Ф.И.О.")]
         public string PassengerFullName { get; set; }
 
         [Required (ErrorMessage = "Не указан день рождения")]
-        public DateTime PassengerBirthday { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayName("Дата рождения")]
+        public DateTime? PassengerBirthday { get; set; }
         public int IdPassengerPassportType { get; set; }
         [StringLength(12, MinimumLength = 8, ErrorMessage = "Не правильные данные паспорта")]
+        [DisplayName("Паспортные данные")]
         public string PassengerPassport { get; set; }
         public int IdUser { get; set; }
 

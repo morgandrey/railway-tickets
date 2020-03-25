@@ -1,0 +1,49 @@
+﻿@model Passenger
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Профиль";
+}
+
+<h1 class="text-center">Профиль</h1>
+
+<div class="row text-center font-weight-bold pt-4">
+    <div class="col pt-4">
+        @Html.DisplayNameFor(model => model.PassengerFullName)
+    </div>
+    <div class="col pt-4">
+        @Html.DisplayFor(model => model.PassengerFullName)
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="col pt-4">
+        @Html.DisplayNameFor(model => model.PassengerBirthday)
+    </div>
+    <div class="col pt-4">
+        @Html.DisplayFor(model => model.PassengerBirthday)
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="col pt-4">
+        @Html.DisplayNameFor(model => model.PassportTypeNavigation.Passport)
+    </div>
+    <div class="col pt-4">
+        @Html.DisplayFor(model => model.PassportTypeNavigation.Passport)
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="col pt-4">
+        @Html.DisplayNameFor(model => model.PassengerPassport)
+    </div>
+    <div class="col pt-4">
+        @Html.DisplayFor(model => model.PassengerPassport)
+    </div>
+
+    <div class="w-100"></div>
+
+</div>
+<div class="text-center mt-5">
+    <a class="btn btn-primary font-weight-bold" asp-action="Edit" asp-controller="Account" asp-route-id="@Model.IdPassenger">Изменить данные</a>
+</div>

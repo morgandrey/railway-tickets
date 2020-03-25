@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0066: Преобразовать оператор switch в выражение
+csharp_style_prefer_switch_expression = true:silent

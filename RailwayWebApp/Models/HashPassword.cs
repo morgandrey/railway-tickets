@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace RailwayWebApp {
+namespace RailwayWebApp.Models {
     public static class HashPassword {
         public static byte[] CreateSalt() {
             var rng = new RNGCryptoServiceProvider();

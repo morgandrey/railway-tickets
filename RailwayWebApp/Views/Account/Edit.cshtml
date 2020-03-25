@@ -1,0 +1,59 @@
+﻿@model Passenger
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Изменение профиля";
+}
+
+<h1 class="text-center">Изменение профиля</h1>
+
+<form asp-action="Edit">
+    <div class="row text-center font-weight-bold pt-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="IdPassenger" />
+        <input type="hidden" asp-for="IdUser" />
+        <div class="col pt-4">
+            @Html.DisplayNameFor(model => model.PassengerFullName)
+        </div>
+        <div class="col pt-4">
+            <input asp-for="PassengerFullName" class="form-control" />
+            <span asp-validation-for="PassengerFullName" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="col pt-4">
+            @Html.DisplayNameFor(model => model.PassengerBirthday)
+        </div>
+        <div class="col pt-4">
+            <input type="date" asp-for="PassengerBirthday" class="form-control" />
+            <span asp-validation-for="PassengerBirthday" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="col pt-4">
+            @Html.DisplayNameFor(model => model.PassportTypeNavigation.Passport)
+        </div>
+        <div class="col pt-4">
+            <select asp-for="IdPassengerPassportType" class="form-control" asp-items="ViewBag.PassportTypes"></select>
+            <span asp-validation-for="IdPassengerPassportType" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+        <div class="col pt-4">
+            @Html.DisplayNameFor(model => model.PassengerPassport)
+        </div>
+        <div class="col pt-4">
+            <input asp-for="PassengerPassport" class="form-control" />
+            <span asp-validation-for="PassengerPassport" class="text-danger"></span>
+        </div>
+
+        <div class="w-100"></div>
+
+    </div>
+    <div class="text-center mt-5">
+        <a class="btn btn-primary font-weight-bold" asp-action="Profile">Назад</a>
+        <button type="submit" class="btn btn-success font-weight-bold">Сохранить</button>
+    </div>
+</form>

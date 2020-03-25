@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace RailwayWebApp.Models
@@ -10,6 +10,7 @@ namespace RailwayWebApp.Models
         public string UserType { get; set; }
 
         [Required (ErrorMessage = "Не указан логин")]
+        [DisplayName("Логин")]
         public string UserLogin { get; set; }
         public string UserHash { get; set; }
         public string UserSalt { get; set; }

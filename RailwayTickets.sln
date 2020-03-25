@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RailwayDesktopApp", "RailwayDesktopApp\RailwayDesktopApp.csproj", "{3EF2A675-F41F-460E-8231-7D8B0F60C34C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailwayWebApp", "RailwayWebApp\RailwayWebApp.csproj", "{1E3179C8-F32F-4672-B55F-3831630BB0F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RailwayWebApp", "RailwayWebApp\RailwayWebApp.csproj", "{1E3179C8-F32F-4672-B55F-3831630BB0F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

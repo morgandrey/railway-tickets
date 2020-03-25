@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using RailwayWebApp.Data;
-using RailwayWebApp.Models;
 
-namespace RailwayWebApp {
+namespace RailwayWebApp.Models {
     public static class SampleData {
         public static void Initialize(RailwaysDBContext context) {
             if (!context.PassportType.Any()) {

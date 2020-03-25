@@ -19,12 +19,12 @@ namespace RailwayWebApp {
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddControllersWithViews();
-            services.AddDbContext<RailwaysDBContext>(options =>
+            services.AddDbContextPool<RailwaysDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("RailwayDatabase")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authorization/Login");
-                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Authorization/Login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
         }
 
@@ -44,7 +44,7 @@ namespace RailwayWebApp {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Authorization}/{action=Login}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
