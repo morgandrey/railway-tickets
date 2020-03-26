@@ -44,7 +44,8 @@ namespace RailwayWebApp.Controllers {
                     return View();
                 }
                 await Authenticate(item);
-                return RedirectToAction("Index", "Home");
+                return item.UserType == "passenger" ? RedirectToAction("Index", "Home")
+                    : RedirectToAction("Passengers", "Admin");
             }
             ViewBag.CheckUserLogin = false;
             return View();
@@ -84,7 +85,7 @@ namespace RailwayWebApp.Controllers {
                     await dbContext.Passenger.AddAsync(passenger);
                     await dbContext.SaveChangesAsync();
                     transaction.Commit();
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 } catch {
                     return NotFound();
                 }
@@ -93,7 +94,7 @@ namespace RailwayWebApp.Controllers {
             return View(registerViewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> Profile() {
             return View(await dbContext.Passenger
