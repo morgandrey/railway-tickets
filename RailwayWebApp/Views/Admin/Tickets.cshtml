@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Ticket>
 @{
-    Layout = "_AdminLayout";
+    Layout = "_Layout";
     ViewData["Title"] = "Билеты";
 }
 
 <h1>Билеты</h1>
 
 <p>
-    <a asp-action="CreateNewTickets">Создать новые билеты</a> |
+    <a asp-action="CreateTickets">Создать новые билеты</a> |
     <a asp-area="" asp-controller="Admin" asp-action="Tickets">Все билеты</a>
 </p>
 @if (Model != null) {

@@ -5,30 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <a class="navbar-brand" asp-action="Index" asp-controller="Home">
-                <img src="railways.png" width="30" height="30" class="d-inline-block align-top" alt="">
-                Railways
-            </a>
+            @if (!User.IsInRole("admin")) {
+                <a class="navbar-brand" asp-action="Index" asp-controller="Home">
+                    <img src="~/images/railways.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    Railways
+                </a>
+            } else {
+                <a class="navbar-brand" asp-action="Passengers" asp-controller="Admin">
+                    <img src="~/images/railways.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    Railways
+                </a>
+            }
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("admin")) {
+                    @if (!User.IsInRole("admin")) {
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="Home" class="nav-link">Главная</a>
+                        </li>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("passenger")) {
+                        <li class="nav-item">
+                            <a asp-action="History" asp-controller="Passenger" class="nav-link">История заказов</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("admin")) { 
                         <li class="nav-item">
                             <a asp-action="Passengers" asp-controller="Admin" class="nav-link">Пользователи</a>
                         </li>
                         <li class="nav-item">
+                            <a asp-action="Tickets" asp-controller="Admin" class="nav-link">Билеты</a>
+                        </li>
+                        <li class="nav-item">
                             <a asp-action="Sales" asp-controller="Admin" class="nav-link">Продажи</a>
                         </li>
-
                     }
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("passanger")) {
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("passenger")) {
                         <li class="nav-item">
                             <a asp-action="Profile" asp-controller="Account" class="nav-link">@User.Identity.Name </a>
                         </li>

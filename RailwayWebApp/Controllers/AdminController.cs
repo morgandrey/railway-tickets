@@ -31,6 +31,7 @@ namespace RailwayWebApp.Controllers
             this.dbContext = dbContext;
         }
 
+        [HttpGet]
         public async Task<ActionResult> Passengers() {
             return View(await dbContext.Passenger
                 .Include(usr => usr.UserNavigation)
@@ -38,14 +39,23 @@ namespace RailwayWebApp.Controllers
                 .ToListAsync());
         }
 
-        public IActionResult Sales() {
-            return View();
+        [HttpGet]
+        public async Task<IActionResult> Sales() {
+            var dateFrom = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
+            var dateTo = DateTime.Now.ToString("yyyy-MM-dd");
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
+            return View(await dbContext.Sale
+                .Include(pass => pass.PassengerNavigation)
+                .Include(user => user.PassengerNavigation.UserNavigation)
+                .Include(ticket => ticket.TicketNavigation)
+                .Include(departure => departure.TicketNavigation.TrainDepartureTownNavigation)
+                .Include(arrival => arrival.TicketNavigation.TrainArrivalTownNavigation)
+                .Where(x => x.SaleDate >= DateTime.Parse(dateFrom) && x.SaleDate <= DateTime.Parse(dateTo))
+                .ToListAsync());
         }
 
-        public async Task<IActionResult> ShowSales(DateTime? dateFrom, DateTime? dateTo) {
-            if (dateFrom == null || dateTo == null) {
-                return RedirectToAction("Sales");
-            }
+        public async Task<IActionResult> ShowSales(DateTime dateFrom, DateTime dateTo) {
             try {
                 var sales = new List<Sale>(await dbContext.Sale
                     .Include(pass => pass.PassengerNavigation)
@@ -56,9 +66,11 @@ namespace RailwayWebApp.Controllers
                     .Where(x => x.SaleDate >= dateFrom && x.SaleDate <= dateTo)
                     .ToListAsync());
                 if (sales.Count > 0) {
-                    Response.Cookies.Append("dateFrom", dateFrom.ToString());
-                    Response.Cookies.Append("dateTo", dateTo.ToString());
+                    Response.Cookies.Append("dateFrom", dateFrom.ToString(CultureInfo.InvariantCulture));
+                    Response.Cookies.Append("dateTo", dateTo.ToString(CultureInfo.InvariantCulture));
                 }
+                ViewBag.DateFrom = dateFrom.ToString("yyyy-MM-dd");
+                ViewBag.DateTo = dateTo.ToString("yyyy-MM-dd");
                 return View("Sales", sales);
             } catch {
                 return NotFound();
@@ -129,6 +141,7 @@ namespace RailwayWebApp.Controllers
             return new JsonResult("Отчёт сохранен");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Tickets() {
             return View(await dbContext.Ticket
                 .Include(departure => departure.TrainDepartureTownNavigation)
@@ -142,7 +155,7 @@ namespace RailwayWebApp.Controllers
                 .ToListAsync());
         }
 
-        public IActionResult CreateNewTickets() {
+        public IActionResult CreateTickets() {
             ViewBag.Trains = new SelectList(dbContext.Train.ToList(), "IdTrain", "TrainName");
             ViewBag.DepartureTowns = new SelectList(dbContext.TrainDepartureTown.ToList(), "IdTrainDepartureTown", "TownName");
             ViewBag.ArrivalTowns = new SelectList(dbContext.TrainArrivalTown.ToList(), "IdTrainArrivalTown", "TownName");
@@ -150,7 +163,7 @@ namespace RailwayWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNewTickets(Ticket ticket, int numberOfWagons) {
+        public IActionResult CreateTickets(Ticket ticket, int numberOfWagons) {
             if (ModelState.IsValid) {
                 try {
                     Response.Cookies.Append("idTrain",

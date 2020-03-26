@@ -1,46 +1,72 @@
 ﻿@model List<Sale>
 @{
-    Layout = "_AdminLayout";
+    Layout = "_Layout";
     ViewData["Title"] = "Продажи";
 }
+
 <form asp-controller="Admin" asp-action="ShowSales" class="form-inline">
     <div class="form-group mb-2">
-        <input type="date" id="dateFrom" name="dateFrom" class="form-control">
+        <input type="date" required="" min="1980-01-01" id="dateFrom" name="dateFrom" value="@ViewBag.DateFrom" class="form-control">
     </div>
     <div class="form-group mx-sm-3 mb-2">
-        <input type="date" id="dateTo" name="dateTo" class="form-control">
+        <input type="date" required="" max="2050-01-01" id="dateTo" name="dateTo" value="@ViewBag.DateTo" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary mb-2">Найти продажи на данный период</button>
-    @if (Model != null) {
-        <button type="submit" asp-action="CreateSaleReport" asp-controller="Admin" class="btn btn-primary mx-sm-3 mb-2">Сделать отчёт</button>
-    }
 </form>
+@if (Model != null && Model.Count > 0) {
+    <div class="form-inline">
+        <button id="saveReportBtn" class="btn btn-primary mx-sm-3 mb-2">Сделать отчёт</button>
+        <span id="result" class="badge badge-success"></span>
+    </div>
+}
 
 @if (Model != null) {
-    <table class="table">
-        @foreach (var item in Model) {
-            <thead>
-                <tr>
-                    <th>Логин</th>
-                    <th>ФИО</th>
-                    <th>Дата покупки билета</th>
-                    <th>Город отбытия</th>
-                    <th>Город прибытия</th>
-                    <th>Дата поездки</th>
-                    <th>Стоимость</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@item.PassengerNavigation.UserNavigation.UserLogin</td>
-                    <td>@item.PassengerNavigation.PassengerFullName</td>
-                    <td>@item.SaleDate</td>
-                    <td>@item.TicketNavigation.TrainDepartureTownNavigation.TownName</td>
-                    <td>@item.TicketNavigation.TrainArrivalTownNavigation.TownName</td>
-                    <td>@item.TicketNavigation.TicketDate</td>
-                    <td>@item.TotalPrice</td>
-                </tr>
-            </tbody>
-        }
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            @foreach (var item in Model) {
+                <thead>
+                    <tr>
+                        <th class="text-center">Логин</th>
+                        <th class="text-center">ФИО</th>
+                        <th class="text-center">Дата продажи</th>
+                        <th class="text-center">Город отбытия</th>
+                        <th class="text-center">Город прибытия</th>
+                        <th class="text-center">Дата поездки</th>
+                        <th class="text-center">Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@item.PassengerNavigation.UserNavigation.UserLogin</td>
+                        <td>@item.PassengerNavigation.PassengerFullName</td>
+                        <td>@item.SaleDate</td>
+                        <td>@item.TicketNavigation.TrainDepartureTownNavigation.TownName</td>
+                        <td>@item.TicketNavigation.TrainArrivalTownNavigation.TownName</td>
+                        <td>@item.TicketNavigation.TicketDate</td>
+                        <td>@item.TotalPrice</td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
 }
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+        $("#saveReportBtn").click(createReport);
+
+        function createReport() {
+            $("#result").html("Сохранение...");
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: '@Url.Action("CreateSaleReport", "Admin")',
+                success: function (result) {
+                    $("#result").html(result).delay(4000)
+                        .fadeOut("fast");
+                },
+                error: function () {
+                    $("#result").html("Произошла ошибка");
+                }
+            });
+        };
+</script>
