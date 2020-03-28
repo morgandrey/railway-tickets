@@ -19,12 +19,11 @@ using Microsoft.EntityFrameworkCore;
 using RailwayWebApp.Data;
 using RailwayWebApp.Models;
 
-namespace RailwayWebApp.Controllers
-{
+namespace RailwayWebApp.Controllers {
+
     [Authorize(Roles = "admin")]
-    public class AdminController : Controller
-    {
-        public static string FONT = Directory.GetCurrentDirectory() + "/Fonts/arial.ttf";
+    public class AdminController : Controller {
+        public static string FONT = Directory.GetCurrentDirectory() + "/wwwroot/arial.ttf";
         private readonly RailwaysDBContext dbContext;
 
         public AdminController(RailwaysDBContext dbContext) {
@@ -164,7 +163,7 @@ namespace RailwayWebApp.Controllers
 
         [HttpPost]
         public IActionResult CreateTickets(Ticket ticket, int numberOfWagons) {
-            if (ModelState.IsValid) {
+            if (!string.IsNullOrEmpty(ticket.TicketDate.ToString()) && !string.IsNullOrEmpty(ticket.TicketTravelTime.ToString())) {
                 try {
                     Response.Cookies.Append("idTrain",
                         ticket.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.IdTrain.ToString());
@@ -175,8 +174,7 @@ namespace RailwayWebApp.Controllers
                         ticket.TrainArrivalTownNavigation.IdTrainArrivalTown.ToString());
                     Response.Cookies.Append("ticketDate", ticket.TicketDate.ToString());
                     Response.Cookies.Append("ticketTravelDuration", ticket.TicketTravelTime.ToString());
-                }
-                catch {
+                } catch {
                     return NotFound();
                 }
                 return RedirectToAction("TicketWagonInformation");
@@ -194,10 +192,11 @@ namespace RailwayWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TicketWagonInformation(List<Wagon> wagons, List<int> numberOfSeats) {
+        public async Task<IActionResult> TicketWagonInformation(List<Wagon> wagons, List<int?> numberOfSeats) {
             try {
                 await using var transaction = dbContext.Database.BeginTransaction();
-                var trainWagons = dbContext.TrainWagon.Where(x => x.IdTrain == int.Parse(Request.Cookies["idTrain"])).ToList();
+                var trainWagons = dbContext.TrainWagon
+                    .Where(x => x.IdTrain == int.Parse(Request.Cookies["idTrain"])).ToList();
                 var nextTravelCount = 1;
 
                 if (trainWagons.Count > 0) {
@@ -256,11 +255,10 @@ namespace RailwayWebApp.Controllers
                 await dbContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();
+                return RedirectToAction("Tickets");
             } catch {
                 return NotFound();
             }
-
-            return RedirectToAction("Tickets");
         }
 
         [HttpGet]

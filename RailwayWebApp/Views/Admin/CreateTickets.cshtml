@@ -1,7 +1,7 @@
 ﻿@model Ticket
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "CreateTickets";
+    ViewData["Title"] = "Добавление билетов";
 }
 
 <h1>Создание билетов</h1>
@@ -12,23 +12,24 @@
     </div>
     <div class="form-group col-md-4">
         <label class="control-label">Количество вагонов</label>
-        <input type="number" id="numberOfWagons" min="1" max="30" name="numberOfWagons"/>
+        <input type="number" id="numberOfWagons" required="" min="1" max="30" name="numberOfWagons" />
     </div>
     <div class="form-group col-md-4">
         <label asp-for="TrainDepartureTownNavigation.IdTrainDepartureTown" class="control-label">Город отправления</label>
         <select asp-for="TrainDepartureTownNavigation.IdTrainDepartureTown" asp-items="ViewBag.DepartureTowns"></select>
-    </div><div class="form-group col-md-4">
+    </div>
+    <div class="form-group col-md-4">
         <label asp-for="TrainArrivalTownNavigation.IdTrainArrivalTown" class="control-label">Город прибытия</label>
         <select asp-for="TrainArrivalTownNavigation.IdTrainArrivalTown" asp-items="ViewBag.ArrivalTowns"></select>
     </div>
     <div class="form-group col-md-4">
         <label asp-for="TicketDate" class="control-label">Время отправления</label>
-        <input type="datetime-local" asp-for="TicketDate" class="form-control"/>
+        <input type="datetime-local" asp-for="TicketDate" class="form-control" />
         <span asp-validation-for="TicketDate" class="text-danger"></span>
     </div>
     <div class="form-group col-md-4">
         <label asp-for="TicketTravelTime" class="control-label">Время в пути</label>
-        <input type="time" asp-for="TicketTravelTime" class="form-control"/>
+        <input type="time" asp-for="TicketTravelTime" class="form-control" />
         <span asp-validation-for="TicketTravelTime" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary col-md-4">Продолжить</button>

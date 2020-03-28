@@ -1,7 +1,7 @@
 ﻿@model List<Wagon>
 @{
-    Layout = "_AdminLayout";
-    ViewData["Title"] = "TicketWagonInformation";
+    Layout = "_Layout";
+    ViewData["Title"] = "Заполнение вагонов";
 }
 
 <h1>Информация о вагонах</h1>
@@ -9,13 +9,13 @@
 <form asp-controller="Admin" asp-action="TicketWagonInformation">
     @for (int i = 0; i < int.Parse(ViewBag.NumberOfWagons); i++) {
         <div class="form-inline">
-            <div class="form-group mb-2">
-                <label class="control-label">Тип вагона</label>
+            <div class="form-group mb-2 mr-4">
+                <label class="control-label mr-3">Тип вагона</label>
                 <select asp-for="@Model[i].IdWagonType" asp-items="ViewBag.WagonTypes"></select>
             </div>
-            <div class="form-group mx-sm-3 mb-2">
-                <label class="control-label">Количество мест</label>
-                <input type="number" id="numberOfSeats" name="numberOfSeats" min="1" max="50" class="form-control">
+            <div class="form-group mx-sm-3 mb-2 ml-4">
+                <label class="control-label mr-3">Количество мест</label>
+                <input type="number" id="numberOfSeats" name="numberOfSeats" required="" min="1" max="50" class="form-control">
             </div>
         </div>
         <div></div>
