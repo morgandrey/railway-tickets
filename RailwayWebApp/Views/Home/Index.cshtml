@@ -1,0 +1,46 @@
+﻿@model IEnumerable<RailwayWebApp.ViewModels.FindTicketsViewModel>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Главная";
+}
+
+<h1 class="text-center">Главная</h1>
+
+<form asp-controller="Home" asp-action="SearchTickets" class="row mt-3">
+    <label class="col text-center">Город отбытия</label>
+    <label class="col text-center">Город прибытия</label>
+    <label class="col text-center">Дата</label>
+    <label class="col"></label>
+    <div class="w-100"></div>
+    <select class="form-control col mr-3 ml-3" id="idDepartureTown" name="idDepartureTown" asp-items="ViewBag.DepartureTowns"></select>
+    <select class="form-control col mr-3 ml-3" id="idArrivalTown" name="idArrivalTown" asp-items="ViewBag.ArrivalTowns"></select>
+    <input type="date" required="" max="2050-01-01" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="dateFrom" name="dateFrom" class="form-control col mr-3 ml-3">
+    <button type="submit" class="btn btn-primary col ml-3 mr-3">Найти</button>
+</form>
+
+@if (Model != null && Model.Any()) {
+    <div class="table-responsive mt-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Поезд</th>
+                <th>Город отбытия</th>
+                <th>Город прибытия</th>
+                <th>Дата поездки</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@item.TrainName</td>
+                        <td>@item.DepartureTown</td>
+                        <td>@item.ArrivalTown</td>
+                        <td>@item.DepartureTime</td>
+                        <td><a asp-action="Reservation" asp-controller="Home" asp-route-departureTown="@item.DepartureTown" asp-route-arrivalTown="@item.ArrivalTown" asp-route-date="@item.DepartureTime" asp-route-trainName="@item.TrainName">Перейти к бронированию</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

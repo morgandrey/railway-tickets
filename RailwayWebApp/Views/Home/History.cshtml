@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Sale>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "История";
+}
+
+<h1 class="text-center">История заказов</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">Город отбытия</th>
+                <th class="text-center">Город прибытия</th>
+                <th class="text-center">Тип вагона</th>
+                <th class="text-center">Вагон</th>
+                <th class="text-center">Место</th>
+                <th class="text-center">Дата продажи</th>
+                <th class="text-center">Дата поездки</th>
+                <th class="text-center">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.TicketNavigation.TrainDepartureTownNavigation.TownName</td>
+                    <td>@item.TicketNavigation.TrainArrivalTownNavigation.TownName</td>
+                    <td>@item.TicketNavigation.SeatNavigation.WagonNavigation.WagonTypeNavigation.WagonType1</td>
+                    <td>@item.TicketNavigation.SeatNavigation.WagonNavigation.WagonNumber</td>
+                    <td>@item.TicketNavigation.SeatNavigation.Seat1</td>
+                    <td>@item.SaleDate</td>
+                    <td>@item.TicketNavigation.TicketDate</td>
+                    <td>@item.TotalPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

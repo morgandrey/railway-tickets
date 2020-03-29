@@ -31,7 +31,7 @@
                     }
                     @if (User.Identity.IsAuthenticated && User.IsInRole("passenger")) {
                         <li class="nav-item">
-                            <a asp-action="History" asp-controller="Passenger" class="nav-link">История заказов</a>
+                            <a asp-action="History" asp-controller="Home" class="nav-link">История заказов</a>
                         </li>
                     }
                     @if (User.IsInRole("admin")) { 

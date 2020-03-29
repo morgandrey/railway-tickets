@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Ticket>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Бронирование билета";
+}
+
+<h1>Бронирование</h1>
+
+<div class="table-responsive mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Тип вагона</th>
+                <th>Вагон</th>
+                <th>Место</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.SeatNavigation.WagonNavigation.WagonTypeNavigation.WagonType1</td>
+                    <td>@item.SeatNavigation.WagonNavigation.WagonNumber</td>
+                    <td>@item.SeatNavigation.Seat1</td>
+                    <td>@item.SeatNavigation.WagonNavigation.WagonTypeNavigation.WagonPrice</td>
+                    <td>
+                        <a asp-action="ReservationConfirmation" asp-controller="Home" asp-route-id="@item.IdTicket">Заказать</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

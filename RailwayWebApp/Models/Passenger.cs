@@ -10,7 +10,7 @@ namespace RailwayWebApp.Models
         public int IdPassenger { get; set; }
 
         [Required (ErrorMessage = "Не указано ФИО")]
-        [DisplayName("Ф.И.О.")]
+        [DisplayName("Полное имя")]
         public string PassengerFullName { get; set; }
 
         [Required (ErrorMessage = "Не указан день рождения")]

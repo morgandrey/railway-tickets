@@ -1,0 +1,78 @@
+﻿@model RailwayWebApp.ViewModels.ReservationConfirmationViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Подтверждение бронирования";
+}
+
+<h1>Подтверждение бронирования</h1>
+
+<div>
+    <h4>Билет</h4>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PassengerFullName)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.PassengerFullName)
+        </dt>
+        <dd class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PassportType)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PassportType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PassportData)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.PassportData)
+        </dt>
+        <dd class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DepartureTown)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DepartureTown)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ArrivalTown)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.ArrivalTown)
+        </dt>
+        <dd class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WagonType)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WagonType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WagonNumber)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.WagonNumber)
+        </dt>
+        <dd class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SeatNumber)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SeatNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dt>
+    </dl>
+
+    <form asp-action="ReservationConfirmation">
+        <label>Скидка</label>
+        <select class="form-control col-3 mb-5" asp-for="IdDiscount" asp-items="ViewBag.Discounts"></select>
+        <input type="hidden" asp-for="IdPassenger"/>
+        <input type="hidden" asp-for="IdTicket"/>
+        <input type="hidden" asp-for="Price"/>
+        <input type="submit" value="Забронировать" class="btn btn-danger"/> |
+        <a asp-action="Index" asp-controller="Home">Назад</a>
+    </form>
+</div>
