@@ -5,7 +5,8 @@ using System.Text;
 using System.Windows;
 using Prism.Commands;
 using Prism.Mvvm;
-using RailwayDesktopApp.Models.Data;
+using RailwayDesktopApp.Data;
+using RailwayDesktopApp.Models;
 using RailwayDesktopApp.Views;
 
 namespace RailwayDesktopApp.ViewModels {
@@ -77,21 +78,28 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private bool CanExecute() {
-            return !string.IsNullOrEmpty(Login) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(FullName) &&
-                   SelectedPassportType != null &&
-                   !string.IsNullOrEmpty(Birthday) && !string.IsNullOrEmpty(PassportData);
+            return !string.IsNullOrEmpty(Login) 
+                   && !string.IsNullOrEmpty(Password)
+                   && !string.IsNullOrEmpty(FullName)
+                   && SelectedPassportType != null
+                   && !string.IsNullOrEmpty(Birthday)
+                   && !string.IsNullOrEmpty(PassportData);
         }
 
         private async void Execute() {
-            await using var dbContext = new RailwaydbContext();
-            var salt = AuthorizationViewModel.CreateSalt();
-            var hash = AuthorizationViewModel.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), salt);
+            if (!long.TryParse(PassportData, out _)) {
+                return;
+            }
             try {
+                await using var dbContext = new RailwaydbContext();
+                await using var transaction = dbContext.Database.BeginTransaction();
+                var salt = AuthorizationViewModel.CreateSalt();
+                var hash = AuthorizationViewModel.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), salt);
                 var user = new User {
                     UserLogin = Login,
                     UserHash = Convert.ToBase64String(hash),
                     UserSalt = Convert.ToBase64String(salt),
-                    UserType = true
+                    UserType = "passenger"
                 };
                 await dbContext.AddAsync(user);
                 await dbContext.SaveChangesAsync();
@@ -104,6 +112,7 @@ namespace RailwayDesktopApp.ViewModels {
                 };
                 await dbContext.AddAsync(passenger);
                 await dbContext.SaveChangesAsync();
+                transaction.Commit();
                 ((PassengerShell)Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Visible;
                 ((PassengerShell)Application.Current.MainWindow).authGrid.Visibility = Visibility.Hidden;
                 PassengerProfileViewModel.idPassenger = passenger.IdPassenger;

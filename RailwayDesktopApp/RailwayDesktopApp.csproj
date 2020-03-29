@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\arial.ttf" />
+    <None Remove="Resources\Fonts\arial.ttf" />
     <None Remove="Resources\icon.ico" />
   </ItemGroup>
 
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Fonts\arial.ttf" />
+    <Resource Include="Resources\Fonts\arial.ttf" />
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
 

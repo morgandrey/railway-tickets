@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using RailwayDesktopApp.Models.Data;
+using RailwayDesktopApp.Data;
+using RailwayDesktopApp.Models;
 using RailwayDesktopApp.Views;
 
 namespace RailwayDesktopApp.ViewModels {
@@ -98,8 +99,9 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext) {
-            TicketInformation = PassengerTicketViewModel.ticketInformation;
             LoadData();
+            TicketInformation = PassengerTicketViewModel.ticketInformation;
+            PriceInformation = $"Цена(Скидка: { SelectedDiscountItem.DiscountName}): { PassengerTicketViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice * SelectedDiscountItem.DiscountMultiply}";
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext) {

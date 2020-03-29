@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using RailwayDesktopApp.Models;
 
-namespace RailwayDesktopApp.Models.Data
+namespace RailwayDesktopApp.Data
 {
     public partial class RailwaydbContext : DbContext
     {
-        public RailwaydbContext()
-        {
+        public RailwaydbContext() {
+
         }
 
         public RailwaydbContext(DbContextOptions<RailwaydbContext> options)
@@ -33,7 +32,6 @@ namespace RailwayDesktopApp.Models.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=(localdb)\\RailwayDB;Database=Railwaydb;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }

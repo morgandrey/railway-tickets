@@ -6,7 +6,7 @@ using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
-using RailwayDesktopApp.Models.Data;
+using RailwayDesktopApp.Data;
 using RailwayDesktopApp.Views;
 
 namespace RailwayDesktopApp.ViewModels {

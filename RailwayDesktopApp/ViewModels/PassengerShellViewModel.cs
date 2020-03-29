@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Threading;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -25,7 +26,7 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private void TickEvent(object sender, EventArgs e) {
-            TimeNow = DateTime.Now.ToString("F");
+            TimeNow = DateTime.Now.ToString("F", CultureInfo.CreateSpecificCulture("ru-RU"));
         }
 
         public DelegateCommand<string> NavigateCommand { get; set; }

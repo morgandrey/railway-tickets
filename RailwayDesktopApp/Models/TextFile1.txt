@@ -1,1 +1,0 @@
-﻿Scaffold-DbContext "Server=DESKTOP-B4CMOIR;Database=RailwaysDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models/Data -Tables Discount,Passenger,Passport_Type,Sale,Seat,Ticket,Train,Train_Departure_Town,Train_Arrival_Town,Wagon,Wagon_Type,User,Train_Wagon -f

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,12 +14,13 @@ using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using RailwayDesktopApp.Models.Data;
+using RailwayDesktopApp.Data;
+using RailwayDesktopApp.Models;
 
 namespace RailwayDesktopApp.ViewModels {
     public class PassengerHistoryViewModel : BindableBase, INavigationAware {
 
-        public static string FONT = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/Fonts/arial.ttf";
+        public static string FONT = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/Resources/Fonts/arial.ttf";
        
         #region Properties
         private string timeFrom;
@@ -70,7 +72,6 @@ namespace RailwayDesktopApp.ViewModels {
                 var pdf = new PdfDocument(writer);
                 var document = new Document(pdf);
                 var font = PdfFontFactory.CreateFont(FONT, PdfEncodings.IDENTITY_H);
-
                 document.Add(new Paragraph($"Билет №{currentSale.IdSale}:").SetFont(font));
                 var ticketList = new List().SetSymbolIndent(12).SetListSymbol("\u2022").SetFont(font);
                 ticketList.Add(new ListItem($"Дата заказа: {currentSale.SaleDate.ToString("f", CultureInfo.GetCultureInfo("ru-RU"))}"))
@@ -88,8 +89,13 @@ namespace RailwayDesktopApp.ViewModels {
                 passengerList.Add(new ListItem($"ФИО: {currentSale.IdPassengerNavigation.PassengerFullName}"))
                     .Add(new ListItem($"День рождения: {currentSale.IdPassengerNavigation.PassengerBirthday:d}"));
                 document.Add(passengerList);
-                
                 document.Close();
+                var process = new Process {
+                    StartInfo = new ProcessStartInfo(dest) {
+                        UseShellExecute = true
+                    }
+                };
+                process.Start();
                 MessageBox.Show("Билет сохранен в документах");
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -109,7 +115,7 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext) {
-            TimeTo = DateTime.Now.ToString("d");
+            TimeTo = DateTime.Now.AddDays(31).ToString("d");
             TimeFrom = DateTime.Now.AddDays(-7).ToString("d");
             LoadSaleData();
         }
