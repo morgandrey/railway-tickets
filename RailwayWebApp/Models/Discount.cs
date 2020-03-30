@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RailwayWebApp.Data;
 
 namespace RailwayWebApp.Models
 {
@@ -9,6 +8,6 @@ namespace RailwayWebApp.Models
         public string DiscountName { get; set; }
         public double DiscountMultiply { get; set; }
 
-        public virtual ICollection<Sale> Sales { get; set; }
+        public ICollection<Sale> Sales { get; set; }
     }
 }
