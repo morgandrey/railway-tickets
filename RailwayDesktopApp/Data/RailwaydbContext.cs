@@ -12,6 +12,7 @@ namespace RailwayDesktopApp.Data
         public RailwaydbContext(DbContextOptions<RailwaydbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Discount> Discount { get; set; }

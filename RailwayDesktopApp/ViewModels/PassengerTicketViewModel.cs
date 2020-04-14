@@ -39,6 +39,11 @@ namespace RailwayDesktopApp.ViewModels {
             get => ticketDate;
             set => SetProperty(ref ticketDate, value);
         }
+        private DateTime dateStart;
+        public DateTime DateStart {
+            get => dateStart;
+            set => SetProperty(ref dateStart, value);
+        }
         private ObservableCollection<Ticket> tickets;
         public ObservableCollection<Ticket> Tickets {
             get => tickets;
@@ -106,6 +111,7 @@ namespace RailwayDesktopApp.ViewModels {
 
         public void OnNavigatedTo(NavigationContext navigationContext) {
             TicketDate = DateTime.Now.ToString("d");
+            DateStart = DateTime.Now;
             LoadData();
         }
 

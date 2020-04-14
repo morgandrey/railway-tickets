@@ -21,9 +21,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.ColumnSpan="2" Content="История заказов" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="37"/>
-        <DatePicker Text="{Binding TimeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="205"/>
+        <DatePicker Text="{Binding TimeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="205"/>
         <Label Grid.Column="1" Grid.Row="1" Content="---" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50" Height="84"/>
-        <DatePicker Text="{Binding TimeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="205" FontSize="20"/>
+        <DatePicker Text="{Binding TimeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="205" FontSize="20"/>
         <Button Grid.Column="3" Grid.Row="1" Margin="10,25,10,25" Content="Найти заказы" FontSize="20" Command="{Binding FindSalesCommand}"/>
 
         <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" AutoGenerateColumns="False" CanUserAddRows="False"

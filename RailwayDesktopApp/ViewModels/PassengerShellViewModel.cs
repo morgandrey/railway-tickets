@@ -4,6 +4,8 @@ using System.Windows.Threading;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using RailwayDesktopApp.Data;
+using RailwayDesktopApp.Models;
 
 namespace RailwayDesktopApp.ViewModels {
     public class PassengerShellViewModel : BindableBase {
@@ -33,6 +35,7 @@ namespace RailwayDesktopApp.ViewModels {
 
         public PassengerShellViewModel(IRegionManager regionManager) {
             PassengerShellViewModel.regionManager = regionManager;
+            SampleData.Initialize(new RailwaydbContext());
             NavigateCommand = new DelegateCommand<string>(Navigate);
             StartClock();
         }

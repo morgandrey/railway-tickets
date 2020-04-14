@@ -77,10 +77,13 @@ namespace RailwayDesktopApp.ViewModels {
         private bool CanExecute() {
             return !string.IsNullOrEmpty(Login) 
                    && !string.IsNullOrEmpty(FullName)
-                && !string.IsNullOrEmpty(PassportData);
+                   && !string.IsNullOrEmpty(PassportData);
         }
 
         private void Execute() {
+            if (!long.TryParse(PassportData, out _)) {
+                return;
+            }
             using var dbContext = new RailwaydbContext();
             try {
                 currentPassenger.IdUserNavigation.UserLogin = Login;

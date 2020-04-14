@@ -77,7 +77,7 @@ namespace RailwayDesktopApp.ViewModels {
                 ticketList.Add(new ListItem($"Дата заказа: {currentSale.SaleDate.ToString("f", CultureInfo.GetCultureInfo("ru-RU"))}"))
                     .Add(new ListItem($"Отправление: {currentSale.IdTicketNavigation.IdTrainDepartureTownNavigation.TownName}"))
                     .Add(new ListItem($"Прибытие: {currentSale.IdTicketNavigation.IdTrainArrivalTownNavigation.TownName}"))
-                    .Add(new ListItem($"Дата отправления: {currentSale.IdTicketNavigation.TicketDate.ToString("f", CultureInfo.GetCultureInfo("ru-RU"))}"))
+                    .Add(new ListItem($"Дата отправления: {currentSale.IdTicketNavigation.TicketDate.ToString("F", CultureInfo.GetCultureInfo("ru-RU"))}"))
                     .Add(new ListItem($"Вагон: {currentSale.IdTicketNavigation.IdSeatNavigation.IdWagonNavigation.WagonNumber}"))
                     .Add(new ListItem($"Место: {currentSale.IdTicketNavigation.IdSeatNavigation.Seat1}"))
                     .Add(new ListItem($"Продолжительность поездки: {currentSale.IdTicketNavigation.TicketTravelTime.Hours} ч. {currentSale.IdTicketNavigation.TicketTravelTime.Minutes} мин."))
@@ -87,7 +87,9 @@ namespace RailwayDesktopApp.ViewModels {
                 document.Add(new Paragraph("Информация о пассажире:").SetFont(font));
                 var passengerList = new List().SetSymbolIndent(12).SetListSymbol("\u2022").SetFont(font);
                 passengerList.Add(new ListItem($"ФИО: {currentSale.IdPassengerNavigation.PassengerFullName}"))
-                    .Add(new ListItem($"День рождения: {currentSale.IdPassengerNavigation.PassengerBirthday:d}"));
+                    .Add(new ListItem($"День рождения: {currentSale.IdPassengerNavigation.PassengerBirthday:d}"))
+                    .Add(new ListItem($"Тип паспорта: {currentSale.IdPassengerNavigation.IdPassengerPassportTypeNavigation.PassportType1}"))
+                    .Add(new ListItem($"Паспортные данные: {currentSale.IdPassengerNavigation.PassengerPassport}"));
                 document.Add(passengerList);
                 document.Close();
                 var process = new Process {
@@ -110,7 +112,7 @@ namespace RailwayDesktopApp.ViewModels {
                 .Include(departure => departure.IdTicketNavigation.IdTrainDepartureTownNavigation)
                 .Include(seat => seat.IdTicketNavigation.IdSeatNavigation)
                 .Include(wagon => wagon.IdTicketNavigation.IdSeatNavigation.IdWagonNavigation)
-                .Include(passenger => passenger.IdPassengerNavigation)
+                .Include(passenger => passenger.IdPassengerNavigation.IdPassengerPassportTypeNavigation)
                 .Where(x => x.IdTicketNavigation.TicketDate >= DateTime.Parse(TimeFrom) && x.IdTicketNavigation.TicketDate <= DateTime.Parse(TimeTo) && x.IdPassenger == PassengerProfileViewModel.idPassenger));
         }
 
