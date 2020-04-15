@@ -35,7 +35,7 @@ namespace RailwayDesktopApp.ViewModels {
 
         public PassengerShellViewModel(IRegionManager regionManager) {
             PassengerShellViewModel.regionManager = regionManager;
-            SampleData.Initialize(new RailwaydbContext());
+            SampleData.Initialize();
             NavigateCommand = new DelegateCommand<string>(Navigate);
             StartClock();
         }

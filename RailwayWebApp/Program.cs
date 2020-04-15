@@ -12,7 +12,6 @@ namespace RailwayWebApp {
             var host = CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope()) {
                 var services = scope.ServiceProvider;
-
                 try {
                     var context = services.GetRequiredService<RailwaysDBContext>();
                     SampleData.Initialize(context);

@@ -5,16 +5,6 @@ namespace RailwayDesktopApp.Data
 {
     public partial class RailwaydbContext : DbContext
     {
-        public RailwaydbContext() {
-
-        }
-
-        public RailwaydbContext(DbContextOptions<RailwaydbContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated();
-        }
-
         public virtual DbSet<Discount> Discount { get; set; }
         public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<PassportType> PassportType { get; set; }
@@ -33,7 +23,7 @@ namespace RailwayDesktopApp.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\RailwayDB;Database=Railwaydb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=RailwayDB;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -45,7 +35,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Discounts_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Discount", "rw");
+                entity.ToTable("Discount", "dbo");
 
                 entity.Property(e => e.IdDiscount).HasColumnName("id_discount");
 
@@ -63,7 +53,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Passenger_Auth_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Passenger", "rw");
+                entity.ToTable("Passenger", "dbo");
 
                 entity.Property(e => e.IdPassenger).HasColumnName("id_passenger");
 
@@ -102,7 +92,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Passport_Type_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Passport_Type", "rw");
+                entity.ToTable("Passport_Type", "dbo");
 
                 entity.Property(e => e.IdPassportType).HasColumnName("id_passport_type");
 
@@ -118,7 +108,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Sale_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Sale", "rw");
+                entity.ToTable("Sale", "dbo");
 
                 entity.Property(e => e.IdSale).HasColumnName("id_sale");
 
@@ -157,7 +147,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Seat_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Seat", "rw");
+                entity.ToTable("Seat", "dbo");
 
                 entity.Property(e => e.IdSeat).HasColumnName("id_seat");
 
@@ -179,7 +169,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Ticket_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Ticket", "rw");
+                entity.ToTable("Ticket", "dbo");
 
                 entity.Property(e => e.IdTicket).HasColumnName("id_ticket");
 
@@ -217,7 +207,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Trains_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Train", "rw");
+                entity.ToTable("Train", "dbo");
 
                 entity.Property(e => e.IdTrain).HasColumnName("id_train");
 
@@ -233,7 +223,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Train_Arrival_Town_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Train_Arrival_Town", "rw");
+                entity.ToTable("Train_Arrival_Town", "dbo");
 
                 entity.Property(e => e.IdTrainArrivalTown).HasColumnName("id_train_arrival_town");
 
@@ -249,7 +239,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Train_Departure_Town_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Train_Departure_Town", "rw");
+                entity.ToTable("Train_Departure_Town", "dbo");
 
                 entity.Property(e => e.IdTrainDepartureTown).HasColumnName("id_train_departure_town");
 
@@ -265,7 +255,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Train_Wagon_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Train_Wagon", "rw");
+                entity.ToTable("Train_Wagon", "dbo");
 
                 entity.Property(e => e.IdTrainWagon).HasColumnName("id_train_wagon");
 
@@ -285,7 +275,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("User_pk")
                     .IsClustered(false);
 
-                entity.ToTable("User", "rw");
+                entity.ToTable("User", "dbo");
 
                 entity.HasIndex(e => e.UserLogin)
                     .HasName("User_user_login_uindex")
@@ -317,7 +307,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Wagon_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Wagon", "rw");
+                entity.ToTable("Wagon", "dbo");
 
                 entity.Property(e => e.IdWagon).HasColumnName("id_wagon");
 
@@ -344,7 +334,7 @@ namespace RailwayDesktopApp.Data
                     .HasName("Train_Type_pk")
                     .IsClustered(false);
 
-                entity.ToTable("Wagon_Type", "rw");
+                entity.ToTable("Wagon_Type", "dbo");
 
                 entity.Property(e => e.IdWagonType).HasColumnName("id_wagon_type");
 
@@ -355,10 +345,6 @@ namespace RailwayDesktopApp.Data
                     .HasColumnName("wagon_type")
                     .HasMaxLength(100);
             });
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
