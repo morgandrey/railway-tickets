@@ -50,9 +50,9 @@ namespace RailwayWebApp.Controllers {
                         x.Key.TrainName
                     }).ToList();
 
-                var findTicketViewModel = new List<FindTicketsViewModel>();
+                var findTicketViewModel = new List<TicketsViewModel>();
                 for (var i = 0; i < result.Count; i++) {
-                    var item = new FindTicketsViewModel {
+                    var item = new TicketsViewModel {
                         ArrivalTown = result[i].ArrivalTown,
                         DepartureTown = result[i].DepartureTown,
                         DepartureTime = result[i].TicketDate,
@@ -81,6 +81,7 @@ namespace RailwayWebApp.Controllers {
                             && x.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.TrainName == trainName
                             && x.TicketDate == DateTime.Parse(date)
                             && x.SeatNavigation.SeatAvailability)
+                .OrderBy(x => x.SeatNavigation.WagonNavigation.WagonNumber).ThenBy(x => x.SeatNavigation.Seat1)
                 .ToListAsync();
             return View(tickets);
         }
@@ -155,6 +156,7 @@ namespace RailwayWebApp.Controllers {
                 .Include(departure => departure.TicketNavigation.TrainDepartureTownNavigation)
                 .Include(arrival => arrival.TicketNavigation.TrainArrivalTownNavigation)
                 .Where(x => x.PassengerNavigation.UserNavigation.UserLogin == User.Identity.Name)
+                .OrderBy(x => x.TicketNavigation.TicketDate)
                 .ToListAsync();
             return View(sales);
         }

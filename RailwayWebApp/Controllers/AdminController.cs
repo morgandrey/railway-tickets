@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RailwayWebApp.Data;
 using RailwayWebApp.Models;
+using RailwayWebApp.ViewModels;
 
 namespace RailwayWebApp.Controllers {
 
@@ -41,9 +43,11 @@ namespace RailwayWebApp.Controllers {
         [HttpGet]
         public async Task<IActionResult> Sales() {
             var dateFrom = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd");
-            var dateTo = DateTime.Now.ToString("yyyy-MM-dd");
+            var dateTo = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
             ViewBag.DateFrom = dateFrom;
             ViewBag.DateTo = dateTo;
+            Response.Cookies.Append("dateFrom", dateFrom.ToString(CultureInfo.InvariantCulture));
+            Response.Cookies.Append("dateTo", dateTo.ToString(CultureInfo.InvariantCulture));
             return View(await dbContext.Sale
                 .Include(pass => pass.PassengerNavigation)
                 .Include(user => user.PassengerNavigation.UserNavigation)
@@ -63,6 +67,7 @@ namespace RailwayWebApp.Controllers {
                     .Include(departure => departure.TicketNavigation.TrainDepartureTownNavigation)
                     .Include(arrival => arrival.TicketNavigation.TrainArrivalTownNavigation)
                     .Where(x => x.SaleDate >= dateFrom && x.SaleDate <= dateTo)
+                    .OrderBy(x => x.SaleDate)
                     .ToListAsync());
                 if (sales.Count > 0) {
                     Response.Cookies.Append("dateFrom", dateFrom.ToString(CultureInfo.InvariantCulture));
@@ -78,17 +83,17 @@ namespace RailwayWebApp.Controllers {
 
         public JsonResult CreateSaleReport() {
             try {
-                var dateFrom = Request.Cookies["dateFrom"];
-                var dateTo = Request.Cookies["dateTo"];
+                var dateFrom = DateTime.Parse(Request.Cookies["dateFrom"]);
+                var dateTo = DateTime.Parse(Request.Cookies["dateTo"]);
                 var sales = new List<Sale>(dbContext.Sale
                         .Include(pass => pass.PassengerNavigation)
                         .Include(user => user.PassengerNavigation.UserNavigation)
                         .Include(ticket => ticket.TicketNavigation)
                         .Include(departure => departure.TicketNavigation.TrainDepartureTownNavigation)
                         .Include(arrival => arrival.TicketNavigation.TrainArrivalTownNavigation)
-                        .Where(x => x.SaleDate >= DateTime.Parse(dateFrom) && x.SaleDate <= DateTime.Parse(dateTo)))
+                        .Where(x => x.SaleDate >= dateFrom && x.SaleDate <= dateTo))
                     .ToList();
-                var dest = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"/Отчёт по продажам от {DateTime.Parse(dateFrom):yyyy-MM-dd}.pdf";
+                var dest = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"/Отчёт по продажам от {dateFrom:yyyy-MM-dd}.pdf";
                 var file = new FileInfo(dest);
                 file.Directory.Create();
                 var pdf = new PdfDocument(new PdfWriter(dest));
@@ -99,7 +104,7 @@ namespace RailwayWebApp.Controllers {
                 var table = new Table(UnitValue.CreatePercentArray(columnWidths));
 
                 var cell = new Cell(1, 4)
-                    .Add(new Paragraph($"Отчёт по продажам {dateFrom} - {dateTo}"))
+                    .Add(new Paragraph($"Отчёт по продажам {dateFrom:yyyy-MM-dd} - {dateTo:yyyy-MM-dd}"))
                     .SetFont(font)
                     .SetFontSize(13)
                     .SetFontColor(DeviceGray.WHITE)
@@ -132,7 +137,12 @@ namespace RailwayWebApp.Controllers {
                     }
                 }
                 document.Add(table);
-
+                var process = new Process {
+                    StartInfo = new ProcessStartInfo(dest) {
+                        UseShellExecute = true
+                    }
+                };
+                process.Start();
                 document.Close();
             } catch {
                 return new JsonResult("Не удалось сохранить отчёт");
@@ -142,16 +152,51 @@ namespace RailwayWebApp.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Tickets() {
-            return View(await dbContext.Ticket
+            var tickets = await dbContext.Ticket
                 .Include(departure => departure.TrainDepartureTownNavigation)
                 .Include(arrival => arrival.TrainArrivalTownNavigation)
-                .Include(seat => seat.SeatNavigation)
-                .Include(wagon => wagon.SeatNavigation.WagonNavigation)
-                .Include(trainWagon => trainWagon.SeatNavigation.WagonNavigation.TrainWagonNavigation)
+                .Include(train => train.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation)
+                .GroupBy(x => new {
+                    ArrivalTown = x.TrainArrivalTownNavigation.TownName,
+                    DepartureTown = x.TrainDepartureTownNavigation.TownName,
+                    x.TicketDate,
+                    x.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.TrainName
+                })
+                .Select(x => new {
+                    x.Key.DepartureTown,
+                    x.Key.ArrivalTown,
+                    x.Key.TicketDate,
+                    x.Key.TrainName
+                })
+                .OrderBy(x => x.TicketDate)
+                .ToListAsync();
+            var ticketsViewModel = new List<TicketsViewModel>();
+            foreach (var ticket in tickets) {
+                ticketsViewModel.Add(
+                    new TicketsViewModel {
+                        TrainName = ticket.TrainName,
+                        DepartureTime = ticket.TicketDate,
+                        DepartureTown = ticket.DepartureTown,
+                        ArrivalTown = ticket.ArrivalTown
+                    });
+            }
+            return View(ticketsViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string departureTown, string arrivalTown, string date, string trainName) {
+            var tickets = await dbContext.Ticket
                 .Include(train => train.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation)
                 .Include(type => type.SeatNavigation.WagonNavigation.WagonTypeNavigation)
-                .OrderBy(x => x.TicketDate)
-                .ToListAsync());
+                .Include(departure => departure.TrainDepartureTownNavigation)
+                .Include(arrival => arrival.TrainArrivalTownNavigation)
+                .Where(x => x.TrainDepartureTownNavigation.TownName == departureTown
+                            && x.TrainArrivalTownNavigation.TownName == arrivalTown
+                            && x.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.TrainName == trainName
+                            && x.TicketDate == DateTime.Parse(date))
+                .OrderBy(x => x.SeatNavigation.WagonNavigation.WagonNumber).ThenBy(x => x.SeatNavigation.Seat1)
+                .ToListAsync();
+            return View(tickets);
         }
 
         public IActionResult CreateTickets() {
@@ -262,7 +307,7 @@ namespace RailwayWebApp.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteTicket(int id) {
+        public async Task<IActionResult> Delete(int id) {
             var ticket = await dbContext.Ticket
                 .Include(departure => departure.TrainDepartureTownNavigation)
                 .Include(arrival => arrival.TrainArrivalTownNavigation)
@@ -275,7 +320,7 @@ namespace RailwayWebApp.Controllers {
             return View(ticket);
         }
 
-        [HttpPost, ActionName("DeleteTicket")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
             try {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ticket>
+﻿@model IEnumerable<RailwayWebApp.ViewModels.TicketsViewModel>
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Билеты";
@@ -7,34 +7,26 @@
 <h1>Билеты</h1>
 
 <p>
-    <a asp-action="CreateTickets">Создать новые билеты</a> |
-    <a asp-area="" asp-controller="Admin" asp-action="Tickets">Все билеты</a>
+    <a asp-action="CreateTickets">Создать новые билеты</a>
 </p>
 @if (Model != null) {
     <table class="table">
         <thead>
             <tr>
-                <th>Поезд</th>
-                <th>Дата отправления</th>
-                <th>Город отбытия</th>
-                <th>Город прибытия</th>
-                <th>Вагон</th>
-                <th>Место</th>
-                <th>Свободно</th>
+                <th>@Html.DisplayNameFor(model => model.TrainName)</th>
+                <th>@Html.DisplayNameFor(model => model.DepartureTime)</th>
+                <th>@Html.DisplayNameFor(model => model.DepartureTown)</th>
+                <th>@Html.DisplayNameFor(model => model.ArrivalTown)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model) {
                 <tr>
-                    <td>@item.SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.TrainName</td>
-                    <td>@item.TicketDate.ToString()</td>
-                    <td>@item.TrainDepartureTownNavigation.TownName</td>
-                    <td>@item.TrainArrivalTownNavigation.TownName</td>
-                    <td>@item.SeatNavigation.WagonNavigation.WagonNumber</td>
-                    <td>@item.SeatNavigation.Seat1</td>
-                    <td>@item.SeatNavigation.SeatAvailability
-                    <td>
-                    <td><a asp-action="DeleteTicket" asp-route-id="@item.IdTicket">Delete</a></td>
+                    <td>@item.TrainName</td>
+                    <td>@item.DepartureTime.ToString()</td>
+                    <td>@item.DepartureTown</td>
+                    <td>@item.ArrivalTown</td>
+                    <td><a asp-action="Details" asp-route-departureTown="@item.DepartureTown" asp-route-arrivalTown="@item.ArrivalTown" asp-route-date="@item.DepartureTime" asp-route-trainName="@item.TrainName">Детали</a></td>
                 </tr>
             }
         </tbody>

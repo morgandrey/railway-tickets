@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RailwayWebApp.ViewModels.FindTicketsViewModel>
+﻿@model IEnumerable<RailwayWebApp.ViewModels.TicketsViewModel>
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Главная";
@@ -22,13 +22,13 @@
     <div class="table-responsive mt-5">
         <table class="table">
             <thead>
-            <tr>
-                <th>Поезд</th>
-                <th>Город отбытия</th>
-                <th>Город прибытия</th>
-                <th>Дата поездки</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.TrainName)</th>
+                    <th>@Html.DisplayNameFor(model => model.DepartureTown)</th>
+                    <th>@Html.DisplayNameFor(model => model.ArrivalTown)</th>
+                    <th>@Html.DisplayNameFor(model => model.DepartureTime)</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model) {

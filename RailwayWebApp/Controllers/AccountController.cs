@@ -85,6 +85,7 @@ namespace RailwayWebApp.Controllers {
                     await dbContext.Passenger.AddAsync(passenger);
                     await dbContext.SaveChangesAsync();
                     transaction.Commit();
+                    await Authenticate(user);
                     return RedirectToAction("Index", "Home");
                 } catch {
                     return NotFound();
@@ -137,8 +138,7 @@ namespace RailwayWebApp.Controllers {
         }
 
         private async Task Authenticate(User user) {
-            var claims = new List<Claim>
-            {
+            var claims = new List<Claim> {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserLogin),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.UserType)
             };

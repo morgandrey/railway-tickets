@@ -32,6 +32,7 @@ namespace RailwayWebApp.ViewModels {
 
         [Required(ErrorMessage = "Обязательное поле")]
         [Display(Name = "Паспортные данные")]
+        [StringLength(12, MinimumLength = 8, ErrorMessage = "Длина от 8 до 12")]
         public string PassportData { get; set; }
     }
 }
