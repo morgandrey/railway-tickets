@@ -57,7 +57,7 @@ namespace RailwayDesktopApp.ViewModels {
             if (SelectedDiscountItem == null) {
                 SelectedDiscountItem = Discounts[0];
             }
-            PriceInformation = $"Цена(Скидка: { SelectedDiscountItem.DiscountName}): { PassengerTicketViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice * SelectedDiscountItem.DiscountMultiply}";
+            PriceInformation = $"Цена(Скидка: { SelectedDiscountItem.DiscountName}): { PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice * SelectedDiscountItem.DiscountMultiply}";
         }
 
         private void LoadData() {
@@ -73,14 +73,14 @@ namespace RailwayDesktopApp.ViewModels {
             try {
                 var saleItem = new Sale {
                     IdPassenger = PassengerProfileViewModel.idPassenger,
-                    IdTicket = PassengerTicketViewModel.currentTicket.IdTicket,
+                    IdTicket = PassengerTicketDetailsViewModel.currentTicket.IdTicket,
                     IdDiscount = SelectedDiscountItem.IdDiscount,
                     SaleDate = DateTime.Now,
-                    TotalPrice = SelectedDiscountItem.DiscountMultiply * PassengerTicketViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice
+                    TotalPrice = SelectedDiscountItem.DiscountMultiply * PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice
                 };
                 await dbContext.AddAsync(saleItem);
-                PassengerTicketViewModel.currentTicket.IdSeatNavigation.SeatAvailability = false; // Бронируем место в вагоне
-                dbContext.Entry(PassengerTicketViewModel.currentTicket.IdSeatNavigation).State = EntityState.Modified;
+                PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation.SeatAvailability = false; // Бронируем место в вагоне
+                dbContext.Entry(PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation).State = EntityState.Modified;
                 await dbContext.SaveChangesAsync();
                 ((PassengerShell) Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Visible;
                 PassengerShellViewModel.Navigate("PassengerHistoryView");
@@ -100,8 +100,8 @@ namespace RailwayDesktopApp.ViewModels {
 
         public void OnNavigatedTo(NavigationContext navigationContext) {
             LoadData();
-            TicketInformation = PassengerTicketViewModel.ticketInformation;
-            PriceInformation = $"Цена(Скидка: { SelectedDiscountItem.DiscountName}): { PassengerTicketViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice * SelectedDiscountItem.DiscountMultiply}";
+            TicketInformation = PassengerTicketDetailsViewModel.ticketInformation;
+            PriceInformation = $"Цена(Скидка: { SelectedDiscountItem.DiscountName}): { PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonPrice * SelectedDiscountItem.DiscountMultiply}";
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext) {

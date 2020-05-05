@@ -37,18 +37,15 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Поезд" Width="70" Binding="{Binding IdSeatNavigation.IdWagonNavigation.IdTrainWagonNavigation.IdTrainNavigation.TrainName}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Тип вагона" Width="*" Binding="{Binding IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonType1}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="№Вагона" Width="*" Binding="{Binding IdSeatNavigation.IdWagonNavigation.WagonNumber}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="№Места" Width="*" Binding="{Binding IdSeatNavigation.Seat1}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Отправление" Width="*" Binding="{Binding IdTrainDepartureTownNavigation.TownName}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Прибытие" Width="*" Binding="{Binding IdTrainArrivalTownNavigation.TownName}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Дата" Width="130" Binding="{Binding TicketDate, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Время в пути" Width="*" Binding="{Binding TicketTravelTime, StringFormat=hh\\:mm}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Поезд" Width="70" Binding="{Binding TrainName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Отправление" Width="*" Binding="{Binding DepartureTown}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Прибытие" Width="*" Binding="{Binding ArrivalTown}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата" Width="130" Binding="{Binding DepartureTime, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Время в пути" Width="*" Binding="{Binding TravelDuration, StringFormat=hh\\:mm}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Заказать" Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.SaleCommand}"/>
+                            <Button Content="Открыть" Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.DetailsCommand}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

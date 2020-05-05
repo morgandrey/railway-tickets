@@ -44,13 +44,13 @@ namespace RailwayDesktopApp.ViewModels {
             get => dateStart;
             set => SetProperty(ref dateStart, value);
         }
-        private ObservableCollection<Ticket> tickets;
-        public ObservableCollection<Ticket> Tickets {
+        private ObservableCollection<TicketModel> tickets;
+        public ObservableCollection<TicketModel> Tickets {
             get => tickets;
             set => SetProperty(ref tickets, value);
         }
-        private Ticket selectedTicketItem;
-        public Ticket SelectedTicketItem {
+        private TicketModel selectedTicketItem;
+        public TicketModel SelectedTicketItem {
             get => selectedTicketItem;
             set => SetProperty(ref selectedTicketItem, value);
     }
@@ -58,16 +58,15 @@ namespace RailwayDesktopApp.ViewModels {
 
         #region Commands
         public DelegateCommand FindTicketCommand { get; set; }
-        public DelegateCommand SaleCommand { get; set; }
+        public DelegateCommand DetailsCommand { get; set; }
         #endregion
 
-        public static Ticket currentTicket;
-        public static string ticketInformation;
+        public static TicketModel currentTicket;
 
         public PassengerTicketViewModel() {
             FindTicketCommand = new DelegateCommand(ExecuteFindCommand, () => true);
-            SaleCommand = new DelegateCommand(ExecuteSaleCommand, () => true);
-            Tickets = new ObservableCollection<Ticket>();
+            DetailsCommand = new DelegateCommand(ExecuteDetailsCommand, () => true);
+            Tickets = new ObservableCollection<TicketModel>();
         }
         private void LoadData() {
             using var dbContext = new RailwaydbContext();
@@ -83,18 +82,40 @@ namespace RailwayDesktopApp.ViewModels {
             }
             using var dbContext = new RailwaydbContext();
             try {
-                var items = dbContext.Ticket
-                    .Include(s => s.IdTrainArrivalTownNavigation)
-                    .Include(d => d.IdTrainDepartureTownNavigation)
-                    .Include(seat => seat.IdSeatNavigation)
-                    .Include(wag => wag.IdSeatNavigation.IdWagonNavigation)
-                    .Include(wagtype => wagtype.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation)
+                var ticketItems = dbContext.Ticket
+                    .Include(departure => departure.IdTrainDepartureTownNavigation)
+                    .Include(arrival => arrival.IdTrainArrivalTownNavigation)
                     .Include(train => train.IdSeatNavigation.IdWagonNavigation.IdTrainWagonNavigation.IdTrainNavigation)
-                    .Where(ariv => ariv.IdTrainArrivalTown == SelectedArrivalTownItem.IdTrainArrivalTown)
-                    .Where(depart => depart.IdTrainDepartureTown == SelectedDepartureTownItem.IdTrainDepartureTown)
+                    .Where(x => x.IdTrainArrivalTown == SelectedArrivalTownItem.IdTrainArrivalTown)
+                    .Where(x => x.IdTrainDepartureTown == SelectedDepartureTownItem.IdTrainDepartureTown)
                     .Where(availability => availability.IdSeatNavigation.SeatAvailability)
-                    .Where(time => time.TicketDate >= DateTime.Parse(TicketDate)).ToList();
-                Tickets.AddRange(items);
+                    .Where(time => time.TicketDate >= DateTime.Parse(TicketDate))
+                    .GroupBy(x => new {
+                        ArrivalTown = x.IdTrainArrivalTownNavigation.TownName,
+                        DepartureTown = x.IdTrainDepartureTownNavigation.TownName,
+                        x.TicketDate,
+                        x.IdSeatNavigation.IdWagonNavigation.IdTrainWagonNavigation.IdTrainNavigation.TrainName,
+                        x.TicketTravelTime
+                    })
+                    .Select(x => new {
+                        x.Key.DepartureTown,
+                        x.Key.ArrivalTown,
+                        x.Key.TicketDate,
+                        x.Key.TrainName,
+                        x.Key.TicketTravelTime
+                    })
+                    .OrderBy(x => x.TicketDate)
+                    .ToList();
+                foreach (var ticket in ticketItems) {
+                    Tickets.Add(
+                        new TicketModel {
+                            TrainName = ticket.TrainName,
+                            DepartureTown = ticket.DepartureTown,
+                            ArrivalTown = ticket.ArrivalTown,
+                            DepartureTime = ticket.TicketDate,
+                            TravelDuration = ticket.TicketTravelTime
+                        });
+                }
                 if (Tickets.Count == 0) {
                     MessageBox.Show("Нет поездов на данный период");
                 }
@@ -102,11 +123,9 @@ namespace RailwayDesktopApp.ViewModels {
                 MessageBox.Show(ex.Message);
             }
         }
-        private void ExecuteSaleCommand() {
-            ((PassengerShell)Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Hidden;
+        private void ExecuteDetailsCommand() {
             currentTicket = SelectedTicketItem;
-            ticketInformation = $"Дата: {SelectedTicketItem.TicketDate:g}\nВремя в пути: {SelectedTicketItem.TicketTravelTime:hh} ч. {SelectedTicketItem.TicketTravelTime:mm} мин.\nТип вагона: {SelectedTicketItem.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonType1}\nВагон: {SelectedTicketItem.IdSeatNavigation.IdWagonNavigation.WagonNumber} Место: {SelectedTicketItem.IdSeatNavigation.Seat1}\n{SelectedTicketItem.IdTrainDepartureTownNavigation.TownName} - {SelectedTicketItem.IdTrainArrivalTownNavigation.TownName}";
-            PassengerShellViewModel.Navigate("PassengerSellView");
+            PassengerShellViewModel.Navigate("PassengerTicketDetailsView");
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext) {

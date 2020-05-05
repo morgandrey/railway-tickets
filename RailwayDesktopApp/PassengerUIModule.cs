@@ -16,6 +16,7 @@ namespace RailwayDesktopApp {
             containerRegistry.RegisterForNavigation<PassengerTicketView>();
             containerRegistry.RegisterForNavigation<PassengerHistoryView>();
             containerRegistry.RegisterForNavigation<PassengerSellView>();
+            containerRegistry.RegisterForNavigation<PassengerTicketDetailsView>();
         }
     }
 }
