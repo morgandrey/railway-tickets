@@ -4,7 +4,7 @@
     ViewData["Title"] = "Продажи";
 }
 
-<form asp-controller="Admin" asp-action="ShowSales" class="form-inline">
+<form asp-controller="Sale" asp-action="ShowSales" class="form-inline">
     <div class="form-group mb-2">
         <input type="date" required="" min="1980-01-01" id="dateFrom" name="dateFrom" value="@ViewBag.DateFrom" class="form-control">
     </div>
@@ -59,7 +59,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: '@Url.Action("CreateSaleReport", "Admin")',
+                url: '@Url.Action("CreateSaleReport", "Sale")',
                 success: function (result) {
                     $("#result").html(result).delay(4000)
                         .fadeOut("fast");

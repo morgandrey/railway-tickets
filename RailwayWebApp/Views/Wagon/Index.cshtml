@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WagonType>
+@{
+    ViewData["Title"] = "Типы вагонов";
+    Layout = "_Layout";
+}
+
+<h1>Типы вагонов</h1>
+<p>
+    <a asp-action="Create">Добавить новый тип вагона</a>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Вагон</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.WagonType1</td>
+                    <td>@item.WagonPrice</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Wagon" asp-route-id="@item.IdWagonType">Изменить тип вагона</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

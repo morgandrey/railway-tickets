@@ -1,0 +1,29 @@
+﻿@model TrainArrivalTown
+@{
+    ViewData["Title"] = "Изменение";
+    Layout = "_Layout";
+}
+<h1>Изменение города (станции)</h1>
+
+<h4>Город (станция)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdTrainArrivalTown"/>
+            <div class="form-group">
+                <label class="control-label">Город</label>
+                <input type="text" required="" asp-for="TownName" class="form-control" />
+                <span asp-validation-for="TownName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Изменить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

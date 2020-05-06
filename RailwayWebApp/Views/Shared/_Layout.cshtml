@@ -17,7 +17,7 @@
                     Railways
                 </a>
             } else {
-                <a class="navbar-brand" asp-action="Passengers" asp-controller="Admin">
+                <a class="navbar-brand" asp-action="Index" asp-controller="Passenger">
                     <img src="~/images/railways.png" width="30" height="30" class="d-inline-block align-top" alt="">
                     Railways
                 </a>
@@ -34,15 +34,24 @@
                             <a asp-action="History" asp-controller="Home" class="nav-link">История заказов</a>
                         </li>
                     }
-                    @if (User.IsInRole("admin")) { 
+                    @if (User.IsInRole("admin")) {
                         <li class="nav-item">
-                            <a asp-action="Passengers" asp-controller="Admin" class="nav-link">Пользователи</a>
+                            <a asp-action="Index" asp-controller="Passenger" class="nav-link">Пользователи</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="Tickets" asp-controller="Admin" class="nav-link">Билеты</a>
+                            <a asp-action="Index" asp-controller="Ticket" class="nav-link">Билеты</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="Sales" asp-controller="Admin" class="nav-link">Продажи</a>
+                            <a asp-action="Index" asp-controller="Sale" class="nav-link">Продажи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="Train" class="nav-link">Поезда</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="Wagon" class="nav-link">Типы вагонов</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="Index" asp-controller="Town" class="nav-link">Города</a>
                         </li>
                     }
                 </ul>
@@ -60,10 +69,10 @@
                         </li>
                     } else {
                         <li class="nav-item">
-                            <a asp-action="register" asp-controller="account" class="nav-link">Регистрация</a>
+                            <a asp-action="Register" asp-controller="Account" class="nav-link">Регистрация</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="login" asp-controller="account" class="nav-link">Вход</a>
+                            <a asp-action="Login" asp-controller="Account" class="nav-link">Вход</a>
                         </li>
                     }
 

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TrainArrivalTown>
+@{
+    ViewData["Title"] = "Города";
+    Layout = "_Layout";
+}
+
+<h1>Города (станции)</h1>
+<p>
+    <a asp-action="Create">Добавить новый город (станцию)</a>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Город (станция)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.TownName</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Town" asp-route-id="@item.IdTrainArrivalTown">Изменить город (станцию)</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

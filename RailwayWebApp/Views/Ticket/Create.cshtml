@@ -5,7 +5,7 @@
 }
 
 <h1>Создание билетов</h1>
-<form asp-controller="Admin" asp-action="CreateTickets">
+<form asp-controller="Ticket" asp-action="Create">
     <div class="form-group col-md-4">
         <label asp-for="SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.IdTrain" class="control-label">Поезд</label>
         <select asp-for="SeatNavigation.WagonNavigation.TrainWagonNavigation.TrainNavigation.IdTrain" asp-items="ViewBag.Trains"></select>

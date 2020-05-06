@@ -45,7 +45,7 @@ namespace RailwayWebApp.Controllers {
                 }
                 await Authenticate(item);
                 return item.UserType == "passenger" ? RedirectToAction("Index", "Home")
-                    : RedirectToAction("Passengers", "Admin");
+                    : RedirectToAction("Index", "Passenger");
             }
             ViewBag.CheckUserLogin = false;
             return View();

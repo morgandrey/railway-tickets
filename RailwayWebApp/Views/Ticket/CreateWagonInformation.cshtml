@@ -6,7 +6,7 @@
 
 <h1>Информация о вагонах</h1>
 
-<form asp-controller="Admin" asp-action="TicketWagonInformation">
+<form asp-controller="Ticket" asp-action="CreateWagonInformation">
     @for (int i = 0; i < int.Parse(ViewBag.NumberOfWagons); i++) {
         <div class="form-inline">
             <div class="form-group mb-2 mr-4">

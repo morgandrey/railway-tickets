@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Ticket>
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Детали направления";
     Layout = "_Layout";
 }
 
-<h1>Детали</h1>
+<h1>Детали направления</h1>
 
 <div class="table-responsive mt-5">
     <table class="table">
@@ -25,7 +25,7 @@
                 <td>@item.SeatNavigation.Seat1</td>
                 <td>@item.SeatNavigation.SeatAvailability</td>
                 <td>
-                    <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.IdTicket">Удалить билет</a>
+                    <a asp-action="Delete" asp-controller="Ticket" asp-route-id="@item.IdTicket">Удалить билет</a>
                 </td>
             </tr>
         }

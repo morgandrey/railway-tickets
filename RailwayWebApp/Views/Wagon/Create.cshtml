@@ -1,0 +1,34 @@
+﻿@model WagonType
+@{
+    ViewData["Title"] = "Добавление";
+    Layout = "_Layout";
+}
+<h1>Добавление тип поезда</h1>
+
+<h4>Новый тип поезда</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WagonType1" class="control-label"></label>
+                <input type="text" required="" asp-for="WagonType1" class="form-control" />
+                <span asp-validation-for="WagonType1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WagonPrice" class="control-label"></label>
+                <input type="number" required="" asp-for="WagonPrice" class="form-control" />
+                <span asp-validation-for="WagonPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+

@@ -19,7 +19,7 @@ namespace RailwayWebApp.Controllers {
         }
         public IActionResult Index() {
             if (User.Identity != null && User.IsInRole("admin")) {
-                return RedirectToAction("Passengers", "Admin");
+                return RedirectToAction("Index", "Passenger");
             }
             ViewBag.ArrivalTowns = new SelectList(dbContext.TrainArrivalTown.ToList(), "IdTrainArrivalTown", "TownName");
             ViewBag.DepartureTowns = new SelectList(dbContext.TrainDepartureTown.ToList(), "IdTrainDepartureTown", "TownName");
