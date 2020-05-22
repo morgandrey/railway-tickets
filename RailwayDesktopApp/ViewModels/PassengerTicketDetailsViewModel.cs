@@ -59,14 +59,14 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private void ExecuteSaleCommand() {
-            ((PassengerShell)Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Hidden;
+            ((Shell)Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Hidden;
             currentTicket = SelectedTicketItem;
             ticketInformation = $"Дата: {SelectedTicketItem.TicketDate:g}" +
                                 $"\nВремя в пути: {SelectedTicketItem.TicketTravelTime:hh} ч. {SelectedTicketItem.TicketTravelTime:mm} мин." +
                                 $"\nТип вагона: {SelectedTicketItem.IdSeatNavigation.IdWagonNavigation.IdWagonTypeNavigation.WagonType1}" +
                                 $"\nВагон: {SelectedTicketItem.IdSeatNavigation.IdWagonNavigation.WagonNumber} Место: {SelectedTicketItem.IdSeatNavigation.Seat1}" +
                                 $"\n{SelectedTicketItem.IdTrainDepartureTownNavigation.TownName} - {SelectedTicketItem.IdTrainArrivalTownNavigation.TownName}";
-            PassengerShellViewModel.Navigate("PassengerSellView");
+            ShellViewModel.Navigate("PassengerSellView");
         }
     }
 }

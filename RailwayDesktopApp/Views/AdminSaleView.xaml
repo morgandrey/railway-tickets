@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="RailwayDesktopApp.Views.AdminSaleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RailwayDesktopApp.Views"
+             xmlns:prism ="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="163*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Grid.ColumnSpan="3" Content="История продаж" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="37" Height="56" Width="296"/>
+        <DatePicker Grid.Column="0" Text="{Binding TimeFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Row="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontSize="20" Width="160" Height="34"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="---" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50" Height="84" Width="70"/>
+        <DatePicker Text="{Binding TimeTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\}}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="160" FontSize="20" Height="34"/>
+        <Button Grid.Column="3" Grid.Row="1" Margin="10,25,10,25" Content="Найти заказы" FontSize="20" Command="{Binding FindSaleCommand}"/>
+        <Button Grid.Column="4" Grid.Row="1" Margin="10,25,10,25" Content="Сделать отчёт" FontSize="20" Command="{Binding CreateReportCommand}"/>
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" AutoGenerateColumns="False" CanUserAddRows="False"
+                  ItemsSource="{Binding Sales}" Margin="10,10,10,10"
+                  RowBackground="#fff" FontWeight="Bold" Foreground="#525252"
+                  ScrollViewer.CanContentScroll="True"
+                  AlternatingRowBackground="#f2f2f2" BorderBrush="#000" BorderThickness="1"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Логин" Width="*" Binding="{Binding IdPassengerNavigation.IdUserNavigation.UserLogin}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="ФИО" Width="*" Binding="{Binding IdPassengerNavigation.PassengerFullName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата продажи" Width="*" Binding="{Binding SaleDate, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Стоимость" Width="*" Binding="{Binding TotalPrice}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

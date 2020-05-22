@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="RailwayDesktopApp.Views.AdminPassengerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RailwayDesktopApp.Views"
+             xmlns:prism ="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="900">
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+                  ItemsSource="{Binding Passengers}"
+                  Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  RowBackground="#fff" FontWeight="Bold" Foreground="#525252"
+                  ScrollViewer.CanContentScroll="True"
+                  AlternatingRowBackground="#f2f2f2" BorderBrush="#000" BorderThickness="1"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Логин" Width="*" Binding="{Binding IdUserNavigation.UserLogin}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="ФИО" Width="300" Binding="{Binding PassengerFullName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата рождения" Width="*" Binding="{Binding PassengerBirthday, StringFormat=\{0:dd.MM.yyyy\}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Тип паспорта" Width="*" Binding="{Binding IdPassengerPassportTypeNavigation.PassportType1}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Данные паспорта" Width="*" Binding="{Binding PassengerPassport}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

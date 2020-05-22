@@ -69,7 +69,10 @@ namespace RailwayDesktopApp.ViewModels {
         }
         #endregion
 
+        #region Commands
         public DelegateCommand RegistrationCommand { get; set; }
+        #endregion
+
         public NewPassengerViewModel() {
             RegistrationCommand = new DelegateCommand(Execute, CanExecute);
             using var dbContext = new RailwaydbContext();
@@ -113,10 +116,10 @@ namespace RailwayDesktopApp.ViewModels {
                 await dbContext.AddAsync(passenger);
                 await dbContext.SaveChangesAsync();
                 transaction.Commit();
-                ((PassengerShell)Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Visible;
-                ((PassengerShell)Application.Current.MainWindow).authGrid.Visibility = Visibility.Hidden;
+                ((Shell)Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Visible;
+                ((Shell)Application.Current.MainWindow).authStackPanel.Visibility = Visibility.Hidden;
                 PassengerProfileViewModel.idPassenger = passenger.IdPassenger;
-                PassengerShellViewModel.Navigate("PassengerProfileView");
+                ShellViewModel.Navigate("PassengerProfileView");
                 MessageBox.Show("Пользователь зарегистрирован!");
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);

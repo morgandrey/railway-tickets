@@ -3,103 +3,78 @@ using System.Linq;
 using System.Windows;
 using RailwayDesktopApp.Data;
 
-namespace RailwayDesktopApp.Models
-{
-    public static class SampleData
-    {
-        public static void Initialize()
-        {
-            try
-            {
+namespace RailwayDesktopApp.Models {
+    public static class SampleData {
+        public static void Initialize() {
+            try {
                 var context = new RailwaydbContext();
-                if (context.Database.EnsureCreated())
-                {
-                    if (!context.PassportType.Any())
-                    {
+                if (context.Database.EnsureCreated()) {
+                    if (!context.PassportType.Any()) {
                         context.PassportType.AddRange(
-                            new PassportType
-                            {
+                            new PassportType {
                                 PassportType1 = "Паспорт РФ"
                             },
-                            new PassportType
-                            {
+                            new PassportType {
                                 PassportType1 = "Загран паспорт"
                             });
                     }
 
-                    if (!context.WagonType.Any())
-                    {
+                    if (!context.WagonType.Any()) {
                         context.WagonType.AddRange(
-                            new WagonType
-                            {
+                            new WagonType {
                                 WagonType1 = "Плацкарт",
                                 WagonPrice = 2000
                             },
-                            new WagonType
-                            {
+                            new WagonType {
                                 WagonType1 = "Купе",
                                 WagonPrice = 3500
                             });
                     }
 
-                    if (!context.Discount.Any())
-                    {
+                    if (!context.Discount.Any()) {
                         context.Discount.AddRange(
-                            new Discount
-                            {
+                            new Discount {
                                 DiscountName = "Нет",
                                 DiscountMultiply = 1
                             },
-                            new Discount
-                            {
+                            new Discount {
                                 DiscountName = "Студент",
                                 DiscountMultiply = 0.9
                             });
                     }
 
-                    if (!context.TrainDepartureTown.Any())
-                    {
+                    if (!context.TrainDepartureTown.Any()) {
                         context.TrainDepartureTown.AddRange(
-                            new TrainDepartureTown
-                            {
+                            new TrainDepartureTown {
                                 TownName = "Москва"
                             },
-                            new TrainDepartureTown
-                            {
+                            new TrainDepartureTown {
                                 TownName = "Йошкар-Ола"
                             },
-                            new TrainDepartureTown
-                            {
+                            new TrainDepartureTown {
                                 TownName = "Санкт-Петербург"
                             });
                     }
 
-                    if (!context.TrainArrivalTown.Any())
-                    {
+                    if (!context.TrainArrivalTown.Any()) {
                         context.TrainArrivalTown.AddRange(
-                            new TrainArrivalTown
-                            {
+                            new TrainArrivalTown {
                                 TownName = "Москва"
                             },
-                            new TrainArrivalTown
-                            {
+                            new TrainArrivalTown {
                                 TownName = "Йошкар-Ола"
                             },
-                            new TrainArrivalTown
-                            {
+                            new TrainArrivalTown {
                                 TownName = "Санкт-Петербург"
                             });
                     }
 
-                    if (!context.Train.Any())
-                    {
+                    if (!context.Train.Any()) {
                         context.Train.AddRange(
-                            new Train
-                            {
+                            new Train {
                                 TrainName = "Б-08"
                             },
-                            new Train
-                            {
+                            new Train {
                                 TrainName = "А-02"
                             }
                         );
@@ -114,9 +89,7 @@ namespace RailwayDesktopApp.Models
                     }
                     context.SaveChanges();
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }

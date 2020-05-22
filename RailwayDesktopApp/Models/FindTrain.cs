@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace RailwayDesktopApp.Models {
-    public class TicketModel {
+    public class FindTrain {
         public string DepartureTown { get; set; }
         public string ArrivalTown { get; set; }
         public DateTime? DepartureTime { get; set; }

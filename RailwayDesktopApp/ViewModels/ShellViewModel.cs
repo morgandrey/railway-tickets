@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Threading;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using RailwayDesktopApp.Data;
 using RailwayDesktopApp.Models;
 
 namespace RailwayDesktopApp.ViewModels {
-    public class PassengerShellViewModel : BindableBase {
+    public class ShellViewModel : BindableBase {
         private static IRegionManager regionManager;
-
+        public static string FONT = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/Resources/Fonts/arial.ttf";
         private string timeNow;
 
         public string TimeNow {
@@ -33,8 +33,8 @@ namespace RailwayDesktopApp.ViewModels {
 
         public DelegateCommand<string> NavigateCommand { get; set; }
 
-        public PassengerShellViewModel(IRegionManager regionManager) {
-            PassengerShellViewModel.regionManager = regionManager;
+        public ShellViewModel(IRegionManager regionManager) {
+            ShellViewModel.regionManager = regionManager;
             SampleData.Initialize();
             NavigateCommand = new DelegateCommand<string>(Navigate);
             StartClock();

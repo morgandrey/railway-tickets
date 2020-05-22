@@ -19,9 +19,6 @@ using RailwayDesktopApp.Models;
 
 namespace RailwayDesktopApp.ViewModels {
     public class PassengerHistoryViewModel : BindableBase, INavigationAware {
-
-        public static string FONT = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "/Resources/Fonts/arial.ttf";
-       
         #region Properties
         private string timeFrom;
         public string TimeFrom {
@@ -71,7 +68,7 @@ namespace RailwayDesktopApp.ViewModels {
                 var writer = new PdfWriter(dest);
                 var pdf = new PdfDocument(writer);
                 var document = new Document(pdf);
-                var font = PdfFontFactory.CreateFont(FONT, PdfEncodings.IDENTITY_H);
+                var font = PdfFontFactory.CreateFont(ShellViewModel.FONT, PdfEncodings.IDENTITY_H);
                 document.Add(new Paragraph($"Билет №{currentSale.IdSale}:").SetFont(font));
                 var ticketList = new List().SetSymbolIndent(12).SetListSymbol("\u2022").SetFont(font);
                 ticketList.Add(new ListItem($"Дата заказа: {currentSale.SaleDate.ToString("f", CultureInfo.GetCultureInfo("ru-RU"))}"))

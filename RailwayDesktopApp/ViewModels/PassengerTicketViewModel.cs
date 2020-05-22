@@ -44,13 +44,13 @@ namespace RailwayDesktopApp.ViewModels {
             get => dateStart;
             set => SetProperty(ref dateStart, value);
         }
-        private ObservableCollection<TicketModel> tickets;
-        public ObservableCollection<TicketModel> Tickets {
+        private ObservableCollection<FindTrain> tickets;
+        public ObservableCollection<FindTrain> Tickets {
             get => tickets;
             set => SetProperty(ref tickets, value);
         }
-        private TicketModel selectedTicketItem;
-        public TicketModel SelectedTicketItem {
+        private FindTrain selectedTicketItem;
+        public FindTrain SelectedTicketItem {
             get => selectedTicketItem;
             set => SetProperty(ref selectedTicketItem, value);
     }
@@ -61,12 +61,12 @@ namespace RailwayDesktopApp.ViewModels {
         public DelegateCommand DetailsCommand { get; set; }
         #endregion
 
-        public static TicketModel currentTicket;
+        public static FindTrain currentTicket;
 
         public PassengerTicketViewModel() {
             FindTicketCommand = new DelegateCommand(ExecuteFindCommand, () => true);
             DetailsCommand = new DelegateCommand(ExecuteDetailsCommand, () => true);
-            Tickets = new ObservableCollection<TicketModel>();
+            Tickets = new ObservableCollection<FindTrain>();
         }
         private void LoadData() {
             using var dbContext = new RailwaydbContext();
@@ -108,7 +108,7 @@ namespace RailwayDesktopApp.ViewModels {
                     .ToList();
                 foreach (var ticket in ticketItems) {
                     Tickets.Add(
-                        new TicketModel {
+                        new FindTrain {
                             TrainName = ticket.TrainName,
                             DepartureTown = ticket.DepartureTown,
                             ArrivalTown = ticket.ArrivalTown,
@@ -125,7 +125,7 @@ namespace RailwayDesktopApp.ViewModels {
         }
         private void ExecuteDetailsCommand() {
             currentTicket = SelectedTicketItem;
-            PassengerShellViewModel.Navigate("PassengerTicketDetailsView");
+            ShellViewModel.Navigate("PassengerTicketDetailsView");
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext) {

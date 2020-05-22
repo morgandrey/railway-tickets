@@ -59,9 +59,9 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private static void NewPassengerExecute() {
-            ((PassengerShell)Application.Current.MainWindow).passengerGrid.Visibility = Visibility.Hidden;
-            ((PassengerShell)Application.Current.MainWindow).authGrid.Visibility = Visibility.Visible;
-            PassengerShellViewModel.Navigate("AuthorizationView");
+            ((Shell)Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Hidden;
+            ((Shell)Application.Current.MainWindow).authStackPanel.Visibility = Visibility.Visible;
+            ShellViewModel.Navigate("AuthorizationView");
         }
 
         private void LoadProfileData() {

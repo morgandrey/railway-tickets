@@ -1,0 +1,38 @@
+﻿<Window x:Class="RailwayDesktopApp.Views.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism ="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"
+        Title="Железные дороги" Height="800" Width="1100" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="../Resources/icon.ico">
+    <Grid Background="Gray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Background="LightGray" Grid.Column="0" Name="authStackPanel">
+            <Button Content="Вход" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AuthorizationView"/>
+            <Button Content="Регистрация" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="NewPassengerView"/>
+        </StackPanel>
+        <StackPanel Background="LightGray" Grid.Column="0" Name="passengerStackPanel">
+            <Button Content="Профиль" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="PassengerProfileView"/>
+            <Button Content="Покупка билетов" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="PassengerTicketView"/>
+            <Button Content="История заказов" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="PassengerHistoryView"/>
+        </StackPanel>
+        <StackPanel Background="LightGray" Grid.Column="0" Name="adminStackPanel">
+            <Button Content="Пользователи" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminPassengerView"/>
+            <Button Content="Билеты" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTicketView"/>
+            <Button Content="История продаж" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
+            <Button Content="Города (станции)" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTownView"/>
+            <Button Content="Типы вагонов" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
+            <Button Content="Поезда" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
+        </StackPanel>
+        <Button Grid.Column="0" VerticalAlignment="Bottom" Content="Выход" Margin="5,40,5,40" Click="Exit_OnClick"/>
+        <Label Grid.Column="1" Content="{Binding TimeNow}" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="20" Margin="0,0,10,0"/>
+        <ContentControl Width="900" Height="700" Grid.Column="1" prism:RegionManager.RegionName="ContentRegion"/>
+    </Grid>
+</Window>
+
+    

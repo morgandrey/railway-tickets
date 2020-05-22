@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="RailwayDesktopApp.Views.AdminTownView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RailwayDesktopApp.Views"
+             xmlns:prism ="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Города (станции)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="37"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Margin="10">
+                <Label Content="Название города (станции)" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                <TextBox FontSize="20" Margin="5" Text="{Binding Town, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button FontSize="20" Content="Добавить город" Margin="5" Command="{Binding AddTownCommand}"/>
+            </StackPanel>
+            <DataGrid Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False"
+                      ItemsSource="{Binding Towns}" SelectedItem="{Binding SelectedTown}" Margin="10"
+                      RowBackground="#fff" FontWeight="Bold" Foreground="#525252"
+                      ScrollViewer.CanContentScroll="True"
+                      AlternatingRowBackground="#f2f2f2" BorderBrush="#000" BorderThickness="1"
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" Cursor="Hand">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Город (станция)" Width="*" Binding="{Binding TownName}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>
