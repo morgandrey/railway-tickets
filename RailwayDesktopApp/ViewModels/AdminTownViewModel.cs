@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -12,12 +11,6 @@ using RailwayDesktopApp.Models;
 namespace RailwayDesktopApp.ViewModels {
     public class AdminTownViewModel : BindableBase, INavigationAware {
         #region Properties
-        private TrainArrivalTown selectedTown;
-        public TrainArrivalTown SelectedTown {
-            get => selectedTown;
-            set => SetProperty(ref selectedTown, value);
-        }
-
         private string town;
         public string Town {
             get => town;
@@ -39,7 +32,6 @@ namespace RailwayDesktopApp.ViewModels {
         public DelegateCommand AddTownCommand =>
             addTownCommand ??= new DelegateCommand(ExecuteAddTownCommand, CanExecuteAddTownCommand);
         #endregion
-
         private void ExecuteAddTownCommand() {
             try {
                 using var dbContext = new RailwaydbContext();

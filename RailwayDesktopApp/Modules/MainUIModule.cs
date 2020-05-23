@@ -23,6 +23,8 @@ namespace RailwayDesktopApp.Modules {
             containerRegistry.RegisterForNavigation<AdminTicketView>();
             containerRegistry.RegisterForNavigation<AdminTicketDetailsView>();
             containerRegistry.RegisterForNavigation<AdminTownView>();
+            containerRegistry.RegisterForNavigation<AdminTrainView>();
+            containerRegistry.RegisterForNavigation<AdminTypeWagonView>();
         }
     }
 }

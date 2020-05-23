@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RailwayDesktopApp.Views.AdminTownView"
+﻿<UserControl x:Class="RailwayDesktopApp.Views.AdminTypeWagonView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:RailwayDesktopApp.Views"
              xmlns:prism ="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900">
     <Grid>
@@ -13,26 +14,29 @@
             <RowDefinition Height="0.1*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Города (станции)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="37"/>
+        <Label Grid.Row="0" Content="Типы вагонов" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="37"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Row="0" Margin="10">
-                <Label Content="Название города (станции)" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                <TextBox FontSize="20" Margin="5" Text="{Binding Town, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button FontSize="20" Content="Добавить город" Margin="5" Command="{Binding AddTownCommand}"/>
+                <Label Content="Тип вагона" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                <TextBox FontSize="20" Margin="5" Text="{Binding WagonType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Стоимость" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                <toolkit:DoubleUpDown FontSize="20" Margin="5" Minimum="1" Value="{Binding WagonPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button FontSize="20" Content="Добавить тип вагона" Margin="5" Command="{Binding AddWagonTypeCommand}"/>
             </StackPanel>
             <DataGrid Grid.Column="1" AutoGenerateColumns="False" CanUserAddRows="False"
-                      ItemsSource="{Binding Towns}" Margin="10"
+                      ItemsSource="{Binding WagonTypes}" Margin="10"
                       RowBackground="#fff" FontWeight="Bold" Foreground="#525252"
                       ScrollViewer.CanContentScroll="True"
                       AlternatingRowBackground="#f2f2f2" BorderBrush="#000" BorderThickness="1"
                       ScrollViewer.HorizontalScrollBarVisibility="Visible"
                       ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Город (станция)" Width="*" Binding="{Binding TownName}"/>
+                    <DataGridTextColumn Header="Тип вагона" Width="*" Binding="{Binding WagonType1}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Стоимость" Width="*" Binding="{Binding WagonPrice}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

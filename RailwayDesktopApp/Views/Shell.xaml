@@ -26,8 +26,8 @@
             <Button Content="Билеты" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTicketView"/>
             <Button Content="История продаж" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
             <Button Content="Города (станции)" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTownView"/>
-            <Button Content="Типы вагонов" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
-            <Button Content="Поезда" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminSaleView"/>
+            <Button Content="Типы вагонов" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTypeWagonView"/>
+            <Button Content="Поезда" Margin="5,40,5,40" Command="{Binding NavigateCommand}" CommandParameter="AdminTrainView" Cursor="Hand"/>
         </StackPanel>
         <Button Grid.Column="0" VerticalAlignment="Bottom" Content="Выход" Margin="5,40,5,40" Click="Exit_OnClick"/>
         <Label Grid.Column="1" Content="{Binding TimeNow}" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="20" Margin="0,0,10,0"/>
