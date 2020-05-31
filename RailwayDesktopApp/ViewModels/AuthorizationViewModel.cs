@@ -48,7 +48,9 @@ namespace RailwayDesktopApp.ViewModels {
                 var hash = Convert.FromBase64String(item.UserHash);
                 if (!CompareByteArrays(saltedHash, hash)) {
                     MessageBox.Show("Неправильный пароль");
-                } else if (item.UserType == "admin") {
+                    return;
+                }
+                if (item.UserType == "admin") {
                     ((Shell)Application.Current.MainWindow).adminStackPanel.Visibility = Visibility.Visible;
                     ((Shell)Application.Current.MainWindow).authStackPanel.Visibility = Visibility.Hidden;
                     ShellViewModel.Navigate("AdminPassengerView");

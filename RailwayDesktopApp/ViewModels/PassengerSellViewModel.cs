@@ -82,7 +82,6 @@ namespace RailwayDesktopApp.ViewModels {
                 PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation.SeatAvailability = false; // Бронируем место в вагоне
                 dbContext.Entry(PassengerTicketDetailsViewModel.currentTicket.IdSeatNavigation).State = EntityState.Modified;
                 await dbContext.SaveChangesAsync();
-                ((Shell) Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Visible;
                 ShellViewModel.Navigate("PassengerHistoryView");
                 MessageBox.Show("Билет забронирован!");
             } catch (Exception ex) {
@@ -94,7 +93,6 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private static void ExecuteBackCommand() {
-            ((Shell)Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Visible;
             ShellViewModel.Navigate("PassengerTicketView");
         }
 

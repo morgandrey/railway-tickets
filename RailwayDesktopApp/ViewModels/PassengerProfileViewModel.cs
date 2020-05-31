@@ -12,8 +12,6 @@ using RailwayDesktopApp.Views;
 
 namespace RailwayDesktopApp.ViewModels {
     public class PassengerProfileViewModel : BindableBase, INavigationAware {
-        public static int idPassenger;
-        private Passenger currentPassenger;
 
         #region Properties
         private string login;
@@ -27,8 +25,12 @@ namespace RailwayDesktopApp.ViewModels {
         private string fullName;
         public string FullName {
             get => fullName;
-            set => SetProperty(ref fullName, value);
+            set {
+                SetProperty(ref fullName, value);
+                ChangeProfileCommand.RaiseCanExecuteChanged();
+            }
         }
+
         private string birthday;
         public string Birthday {
             get => birthday;
@@ -47,12 +49,21 @@ namespace RailwayDesktopApp.ViewModels {
         private string passportData;
         public string PassportData {
             get => passportData;
-            set => SetProperty(ref passportData, value);
+            set {
+                SetProperty(ref passportData, value);
+                ChangeProfileCommand.RaiseCanExecuteChanged();
+            }
         }
+
+        public static int idPassenger;
+        private Passenger currentPassenger;
         #endregion
 
+        #region Commands
         public DelegateCommand ChangeProfileCommand { get; set; }
         public DelegateCommand ChangePassengerCommand { get; set; }
+        #endregion
+
         public PassengerProfileViewModel() {
             ChangeProfileCommand = new DelegateCommand(Execute, CanExecute);
             ChangePassengerCommand = new DelegateCommand(NewPassengerExecute, () => true);
@@ -75,17 +86,17 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private bool CanExecute() {
-            return !string.IsNullOrEmpty(Login) 
+            return !string.IsNullOrEmpty(Login)
                    && !string.IsNullOrEmpty(FullName)
-                   && !string.IsNullOrEmpty(PassportData);
+                   && !string.IsNullOrEmpty(PassportData)
+                   && long.TryParse(PassportData, out _)
+                   && PassportData.Length >= 8
+                   && PassportData.Length <= 12;
         }
 
         private void Execute() {
-            if (!long.TryParse(PassportData, out _)) {
-                return;
-            }
-            using var dbContext = new RailwaydbContext();
             try {
+                using var dbContext = new RailwaydbContext();
                 currentPassenger.IdUserNavigation.UserLogin = Login;
                 currentPassenger.PassengerFullName = FullName;
                 currentPassenger.PassengerBirthday = DateTime.Parse(Birthday);

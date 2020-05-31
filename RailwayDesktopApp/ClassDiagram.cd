@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RailwayDesktopApp.Models.Discount">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAGAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Discount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Passenger">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAQIAACAOACAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Passenger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.PassportType">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAACAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\PassportType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Sale">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAEIAABAAIAAQAAAAAABAAEAIAA=</HashCode>
+      <FileName>Models\Sale.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Seat">
+    <Position X="3.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAACAACAQAAAAAACAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Models\Seat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Ticket">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAIAAAAAAAgAACAAAhAAAAAAAAAEAAAgAAAAAE=</HashCode>
+      <FileName>Models\Ticket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Train">
+    <Position X="8.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAIAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\Train.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.TrainArrivalTown">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAgACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TrainArrivalTown.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.TrainDepartureTown">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\TrainDepartureTown.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.TrainWagon">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAABAAAAAgA=</HashCode>
+      <FileName>Models\TrainWagon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.User">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAACAAAAAAACAAAAAAAAAAACACAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.Wagon">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAgAAAAAABAAAAAAAQAAAAAACAAAAAAAAAAAAAgQ=</HashCode>
+      <FileName>Models\Wagon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RailwayDesktopApp.Models.WagonType">
+    <Position X="5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Models\WagonType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

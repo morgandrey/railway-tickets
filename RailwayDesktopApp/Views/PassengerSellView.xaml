@@ -33,7 +33,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
-        <Button Grid.Row="5" Grid.Column="0" Margin="50,30,50,30" Content="Назад" Foreground="Red" FontSize="30" Command="{Binding BackCommand}"/>
+        <Button Grid.Row="5" Grid.Column="0" Margin="50,30,50,30" Content="Назад" Foreground="Red" FontSize="30" Command="{Binding BackCommand}" Cursor="Hand"/>
         <Button Grid.Row="5" Grid.Column="1" Margin="50,30,50,30" Content="Заказать билет" Foreground="Green" FontSize="30" Command="{Binding ApplySaleCommand}"/>
     </Grid>
 </UserControl>

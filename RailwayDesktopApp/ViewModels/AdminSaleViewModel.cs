@@ -59,7 +59,7 @@ namespace RailwayDesktopApp.ViewModels {
         void ExecuteCreateReportCommand() {
             try {
                 var dest = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                           $"/Отчёт по продажам от {TimeFrom:d}.pdf";
+                           $"/Отчёт по продажам {TimeFrom:M} {TimeFrom.Year} - {TimeTo:M} {TimeTo.Year}.pdf";
                 var file = new FileInfo(dest);
                 file.Directory.Create();
                 var writer = new PdfWriter(dest);
@@ -106,7 +106,7 @@ namespace RailwayDesktopApp.ViewModels {
                 };
                 process.Start();
                 document.Close();
-                MessageBox.Show("Билет сохранен в документах");
+                MessageBox.Show("Отчёт по продажам сохранен в документах");
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }

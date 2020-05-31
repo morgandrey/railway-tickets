@@ -7,7 +7,6 @@ using Prism.Commands;
 using Prism.Mvvm;
 using RailwayDesktopApp.Data;
 using RailwayDesktopApp.Models;
-using RailwayDesktopApp.Views;
 
 namespace RailwayDesktopApp.ViewModels {
     public class PassengerTicketDetailsViewModel : BindableBase {
@@ -24,10 +23,10 @@ namespace RailwayDesktopApp.ViewModels {
             get => selectedTicketItem;
             set => SetProperty(ref selectedTicketItem, value);
         }
-        #endregion
 
-        public static string ticketInformation;
-        public static Ticket currentTicket;
+        public static string ticketInformation { get; set; }
+        public static Ticket currentTicket { get; set; }
+        #endregion
 
         #region Commands
         public DelegateCommand SaleCommand { get; set; }
@@ -59,7 +58,6 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private void ExecuteSaleCommand() {
-            ((Shell)Application.Current.MainWindow).passengerStackPanel.Visibility = Visibility.Hidden;
             currentTicket = SelectedTicketItem;
             ticketInformation = $"Дата: {SelectedTicketItem.TicketDate:g}" +
                                 $"\nВремя в пути: {SelectedTicketItem.TicketTravelTime:hh} ч. {SelectedTicketItem.TicketTravelTime:mm} мин." +

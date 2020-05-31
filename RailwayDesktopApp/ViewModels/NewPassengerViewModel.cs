@@ -81,20 +81,24 @@ namespace RailwayDesktopApp.ViewModels {
         }
 
         private bool CanExecute() {
-            return !string.IsNullOrEmpty(Login) 
+            return !string.IsNullOrEmpty(Login)
                    && !string.IsNullOrEmpty(Password)
                    && !string.IsNullOrEmpty(FullName)
                    && SelectedPassportType != null
                    && !string.IsNullOrEmpty(Birthday)
-                   && !string.IsNullOrEmpty(PassportData);
+                   && !string.IsNullOrEmpty(PassportData)
+                   && long.TryParse(PassportData, out _)
+                   && PassportData.Length >= 8
+                   && PassportData.Length <= 12;
         }
 
         private async void Execute() {
-            if (!long.TryParse(PassportData, out _)) {
-                return;
-            }
             try {
                 await using var dbContext = new RailwaydbContext();
+                if (dbContext.User.FirstOrDefault(x => x.UserLogin == Login) != null) {
+                    MessageBox.Show("Такой пользователь уже существует");
+                    return;
+                }
                 await using var transaction = dbContext.Database.BeginTransaction();
                 var salt = AuthorizationViewModel.CreateSalt();
                 var hash = AuthorizationViewModel.GenerateSaltedHash(Encoding.UTF8.GetBytes(Password), salt);

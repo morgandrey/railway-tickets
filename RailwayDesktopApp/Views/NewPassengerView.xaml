@@ -39,7 +39,7 @@
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Тип паспорта" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
         <ComboBox Grid.Row="4" Grid.Column="1" Margin="5,30,5,30" FontSize="20" ItemsSource="{Binding PassportType}" SelectedItem="{Binding SelectedPassportType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedValuePath="IdPassportType" DisplayMemberPath="PassportType1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Серия и номер паспорта" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
-        <TextBox Text="{Binding PassportData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="5,30,5,30" FontSize="20" MaxLength="10" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-        <Button Command="{Binding RegistrationCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="50,25,50,25" Content="Зарегистрироваться" Foreground="Green" FontSize="30"/>
+        <TextBox Text="{Binding PassportData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="5,30,5,30" FontSize="20" MaxLength="12" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Button Command="{Binding RegistrationCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="50,25,50,25" Content="Зарегистрироваться" FontSize="30" Cursor="Hand"/>
     </Grid>
 </UserControl>

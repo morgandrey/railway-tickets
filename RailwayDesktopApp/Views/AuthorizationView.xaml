@@ -29,6 +29,6 @@
             </i:Interaction.Behaviors>
         </PasswordBox>
         <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="Пароль" FontWeight="Bold"/>
-        <Button Command="{Binding LoginCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="50,90,50,90" Content="Войти" Foreground="Green" FontSize="30"/>
+        <Button Command="{Binding LoginCommand, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="50,90,50,90" Content="Войти" FontSize="30" Cursor="Hand"/>
     </Grid>
 </UserControl>
