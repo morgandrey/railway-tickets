@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RailwayWebApp.ViewModels {
     public class RegisterViewModel {
         [Required(ErrorMessage = "Обязательное поле")]
         [Display(Name = "Логин")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "Логин от 1 до 100 символов")]
+        [Remote("CheckLogin", "Account", ErrorMessage = "Логин уже используется")]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле")]

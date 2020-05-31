@@ -18,6 +18,8 @@ namespace RailwayWebApp.Models
         [DisplayName("Дата рождения")]
         public DateTime? PassengerBirthday { get; set; }
         public int IdPassengerPassportType { get; set; }
+
+        [Required(ErrorMessage = "Не указаны паспортные данные")]
         [StringLength(12, MinimumLength = 8, ErrorMessage = "Не правильные данные паспорта")]
         [DisplayName("Паспортные данные")]
         public string PassengerPassport { get; set; }

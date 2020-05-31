@@ -29,6 +29,11 @@ namespace RailwayWebApp.Controllers {
             return View();
         }
 
+        public async Task<IActionResult> CheckLoginAsync(string login) {
+            var user = await dbContext.User.FirstOrDefaultAsync(x => x.UserLogin == login);
+            return Json(user == null);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(User user, string password) {
