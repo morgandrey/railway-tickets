@@ -192,14 +192,14 @@ namespace RailwayDesktopApp.ViewModels {
                 }
                 dbContext.Seat.AddRange(seats);
                 dbContext.SaveChanges();
-
+                var time = DepartureTime.ToString("G");
                 var tickets = new List<Ticket>();
                 for (int i = 0; i < seats.Count; i++) {
                     tickets.Add(new Ticket {
                         IdSeat = seats[i].IdSeat,
                         IdTrainDepartureTown = SelectedTrainDepartureTown.IdTrainDepartureTown,
                         IdTrainArrivalTown = SelectedTrainArrivalTown.IdTrainArrivalTown,
-                        TicketDate = DepartureTime,
+                        TicketDate = DateTime.Parse(time),
                         TicketTravelTime = TravelDuration.TimeOfDay
                     });
                 }

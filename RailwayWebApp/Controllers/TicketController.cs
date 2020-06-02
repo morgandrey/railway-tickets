@@ -154,12 +154,13 @@ namespace RailwayWebApp.Controllers {
                 await dbContext.SaveChangesAsync();
 
                 var tickets = new List<Ticket>();
+                var time = DateTime.Parse(Request.Cookies["ticketDate"]).ToString("G");
                 for (int i = 0; i < seats.Count; i++) {
                     tickets.Add(new Ticket {
                         IdSeat = seats[i].IdSeat,
                         IdTrainDepartureTown = int.Parse(Request.Cookies["idDepartureTown"]),
                         IdTrainArrivalTown = int.Parse(Request.Cookies["idArrivalTown"]),
-                        TicketDate = DateTime.Parse(Request.Cookies["ticketDate"]),
+                        TicketDate = DateTime.Parse(time),
                         TicketTravelTime = TimeSpan.Parse(Request.Cookies["ticketTravelDuration"])
                     });
                 }
